@@ -3,65 +3,33 @@ using System.Collections;
 using System.Linq;
 public class Charactermovement : MonoBehaviour
 {
-    private int State;//角色状态
-    private int oldState = 0;//前一次角色的状态
-    private int UP = 0;//角色状态向前
-    private int RIGHT = 1;//角色状态向右
-    private int DOWN = 2;//角色状态向后
-    private int LEFT = 3;//角色状态向左
+    private Transform mmTransform;
+    private Rigidbody mmRigidbody;
+    //属性
 
-    public float speed = 4;
+    //开始事件 Awake(),Start()
 
     void Start()
     {
+        //获取自身 Transform组件和Rigidbody组件的引用
+        mmTransform = gameObject.GetComponent<Transform>();
+        mmRigidbody = gameObject.GetComponent<Rigidbody>();
     }
+    //更新事件，Update(),FixUpdate
     void Update()
     {
-        if (Input.GetKey("w"))
-        {
-            setState(UP);
-        }
-        else if (Input.GetKey("s"))
-        {
-            setState(DOWN);
-        }
-
-        if (Input.GetKey("a"))
-        {
-            setState(LEFT);
-        }
-        else if (Input.GetKey("d"))
-        {
-            setState(RIGHT);
-        }
-
+        PlayerMove();
     }
+    //方法
 
-
-    void setState(int currState)
+    private void PlayerMove()
     {
-        Vector3 transformValue = new Vector3();//定义平移向量
-        int rotateValue = (currState - State) * 90;
-        switch (currState)
-        {
-            case 0://角色状态向前时，角色不断向前缓慢移动
-                transformValue = Vector3.forward * Time.deltaTime * speed;
-                break;
-            case 1://角色状态向右时。角色不断向右缓慢移动
-                transformValue = Vector3.right * Time.deltaTime * speed;
-                break;
-            case 2://角色状态向后时。角色不断向后缓慢移动
-                transformValue = Vector3.back * Time.deltaTime * speed;
-                break;
-            case 3://角色状态向左时，角色不断向左缓慢移动
-                transformValue = Vector3.left * Time.deltaTime * speed;
-                break;
-        }
-        transform.Rotate(Vector3.up, rotateValue);//旋转角色
-        transform.Translate(transformValue, Space.World);//平移角色
-        oldState = State;//赋值，方便下一次计算
-        State = currState;//赋值，方便下一次计算
+        //使用系统预设的w,a,s,d 控制Cube移动
+        float h = Input.GetAxis("Horizontal");
+        float v = Input.GetAxis("Vertical");
+        Vector3 dir = new Vector3(h, 0, v);
+        //刚体移动的特点：物体的位置+方向，太快就方向*一个小数，使之慢一点
+        mmRigidbody.MovePosition(mmTransform.position + dir * 0.2f);
     }
-
 
 }
