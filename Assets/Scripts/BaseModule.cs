@@ -63,8 +63,9 @@ public class BaseModule : MonoBehaviour
         CleanMachine
     }
 
-    private ModuleType init_type;
-    private ModuleType current_type;
+    public ModuleType init_type;
+    public ModuleType current_type;
+    public BaseModule bridge_out;//如果是BridgeIn，需要关联BridgeOut
 
     public ColorStream out_state
     {
@@ -144,6 +145,45 @@ public class BaseModule : MonoBehaviour
 
     public void InputState(int direct,ColorStream color)
     {
+        switch(current_type)
+        {
+            case ModuleType.SignalGen:
+            case ModuleType.BridgeOut:
+                {
+                    if (direct == 4)
+                    {
+                        allInputs[0] = new ColorStream(color);
+                    }
+                    break;
+                }
+            case ModuleType.SignalRev:
+            case ModuleType.BridgeIn:
+            case ModuleType.SPipe:
+            case ModuleType.TPipe:
+            case ModuleType.XPipe:
+            case ModuleType.NotGate:
+                {
+                    if(direct==this.direct)
+                    {
+                        allInputs[direct] = new ColorStream(color);
+                    }
+                    break;
+                }
+            case ModuleType.AndGate:
+            case ModuleType.OrGate:
+                {
+                    if (direct == this.direct || direct == (this.direct + 3) % 4)
+                    {
+                        allInputs[direct] = new ColorStream(color);
+                    }
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+
         if(direct<0||direct>3)
         {
             return;
@@ -202,6 +242,11 @@ public class BaseModule : MonoBehaviour
                             next.InputState(direct, out_state);
                         }
                     }
+                    break;
+                }
+            case ModuleType.BridgeIn:
+                {
+                    bridge_out.InputState(4, out_state);
                     break;
                 }
         }
