@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Mark
   - TargetMark
+  - map
   layers:
   - Default
   - TransparentFX

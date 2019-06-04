@@ -44,7 +44,7 @@ public class BaseModule : MonoBehaviour
     public int direct;
     private int index_x, index_y;
     private int[,] d= new int[,] { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
-    
+
     private ColorStream[] allInputs = new ColorStream[4];
     public enum ModuleType
     {
@@ -66,6 +66,8 @@ public class BaseModule : MonoBehaviour
     public ModuleType init_type;
     public ModuleType current_type;
     public BaseModule bridge_out;//如果是BridgeIn，需要关联BridgeOut
+
+    private MapControl map;
 
     public ColorStream out_state
     {
@@ -138,9 +140,14 @@ public class BaseModule : MonoBehaviour
 
     private void Awake()
     {
+    }
+    private void Start()
+    {
+        map = MapControl.getInstance();
+
         int sibling_index = transform.GetSiblingIndex();
-        index_x = sibling_index / MapControl.n;
-        index_y = sibling_index % MapControl.n;
+        index_x = sibling_index / map.n;
+        index_y = sibling_index % map.n;
     }
 
     public void InputState(int direct,ColorStream color)
@@ -264,12 +271,12 @@ public class BaseModule : MonoBehaviour
     {
         int next_x = index_x + d[direct, 0];
         int next_y = index_y + d[direct, 1];
-        if(next_x<0||next_x>=MapControl.m)
+        if(next_x<0||next_x>=map.m)
         {
             return false;
         }
 
-        if (next_y < 0 || next_y >= MapControl.n)
+        if (next_y < 0 || next_y >= map.n)
         {
             return false;
         }
@@ -280,7 +287,7 @@ public class BaseModule : MonoBehaviour
     {
         if(IsNextValid(direct))
         {
-            return MapControl.modules[index_x + d[direct, 0], index_y + d[direct, 1]];
+            return map.modules[index_x + d[direct, 0], index_y + d[direct, 1]];
         }
         else
         {
