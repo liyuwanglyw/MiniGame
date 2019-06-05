@@ -4,26 +4,18 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
+
 public class DragItem : MonoBehaviour,IPointerClickHandler
 {
-    public enum DragType
-    {
-        SPipe,
-        TPipe,
-        XPipe,
-        AndGate,
-        OrGate,
-        NotGate,
-        Plat,
-        Clean
-    }
     public DragType type;
 
+    private Sprite sprite;
     private MapControl map;
     // Start is called before the first frame update
     void Start()
     {
         map = MapControl.getInstance();
+        sprite = transform.GetChild(0).GetComponent<Image>().sprite;
     }
 
     // Update is called once per frame
@@ -36,10 +28,14 @@ public class DragItem : MonoBehaviour,IPointerClickHandler
     {
         if(eventData.button==PointerEventData.InputButton.Left)
         {
-            if(map.mouse_state==MapControl.MouseState.Empty)
+            if(map.mouse_state==DragType.Empty)
             {
+                map.drag_item.GetComponent<Image>().sprite = sprite;
+                map.drag_item.gameObject.SetActive(true);
+                map.drag_item.rotation = transform.rotation;
+                map.mouse_state = type;
+                map.direct = 0;
             }
-            
         }
     }
 }

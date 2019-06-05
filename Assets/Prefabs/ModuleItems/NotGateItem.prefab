@@ -233,6 +233,7 @@ GameObject:
   - component: {fileID: 6059530308933698988}
   - component: {fileID: 6059530308933698986}
   - component: {fileID: 6059530308933698987}
+  - component: {fileID: 4010103469578545704}
   m_Layer: 5
   m_Name: NotGateItem
   m_TagString: Untagged
@@ -297,6 +298,22 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!114 &4010103469578545704
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6059530308933698989}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 890b8c7a0df56014ea3d40b71f2d8357, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isPolluted: 0
+  direct: 0
+  init_type: 10
+  bridge_out: {fileID: 0}
 --- !u!1 &6059530309895821669
 GameObject:
   m_ObjectHideFlags: 0
