@@ -71,19 +71,20 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         CleanMachine
     }
     public ModuleType init_type;
-    private Stack<ModuleType> all_typeps;
+    private Stack<ModuleType> all_types;
     public ModuleType current_type
     {
         get
         {
-             return all_typeps.Peek();
+             return all_types.Peek();
         }
     }
     public bool isValid
     {
         get
         {
-            return current_type == ModuleType.Empty || current_type == ModuleType.Plat;
+            return ((current_type == ModuleType.Empty || current_type == ModuleType.Plat)&&map.mouse_state!=DragType.Plat)
+                ||(current_type==ModuleType.Invalid&&map.mouse_state==DragType.Plat);
         }
     }
 
@@ -173,8 +174,8 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
     }
     private void Start()
     {
-        all_typeps = new Stack<ModuleType>();
-        all_typeps.Push(init_type);
+        all_types = new Stack<ModuleType>();
+        all_types.Push(init_type);
 
         map = MapControl.getInstance();
         state = GetComponentInChildren<UIStateItem>();
@@ -329,7 +330,8 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 
     public void SetModule(ModuleType type,int direct)
     {
-        
+        all_types.Push(type);
+
         string sprite_name=type.ToString();
         string resource_locate = string.Format("ModuleSprites/{0}",sprite_name);
 
@@ -357,9 +359,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
     {
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Debug.Log(map.mouse_state);
-            Debug.Log(map.direct);
-            if (map.mouse_state != DragType.Empty)
+            if (map.mouse_state != DragType.Empty&&isValid)
             {
                 ModuleType module_type = ModuleType.Empty;
                 switch (map.mouse_state)
@@ -394,19 +394,18 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                             module_type = ModuleType.NotGate;
                             break;
                         }
-                    case DragType.Plat:
-                        {
-                            module_type = ModuleType.Plat;
-                            break;
-                        }
                     case DragType.Clean:
                         {
                             module_type = ModuleType.CleanMachine;
                             break;
                         }
+                    case DragType.Plat:
+                        {
+                            module_type = ModuleType.Plat;
+                            break;
+                        }
                     default:
                         break;
-
                 }
                 module_sprite.transform.rotation = map.drag_item.rotation;
                 SetModule(module_type, map.direct);
