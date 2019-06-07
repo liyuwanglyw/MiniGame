@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.EventSystems;
+using CJFinc.UItools;
+using UnityEngine.UI;
 
 [System.Serializable]
 public class ColorStream
@@ -38,17 +41,22 @@ public class ColorStream
     public bool r,g,b;
 }
 
-public class BaseModule : MonoBehaviour
+public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandler,IPointerExitHandler
 {
+    //格子的一些常用参数
     public bool isPolluted;
+    
     public int direct;
+
+    //格子的坐标
     private int index_x, index_y;
     private int[,] d= new int[,] { { -1, 0 }, { 0, 1 }, { 1, 0 }, { 0, -1 } };
-    
-    private ColorStream[] allInputs = new ColorStream[4];
+
+    //当前格子的建筑
     public enum ModuleType
     {
-        Valid,
+        Empty,
+        Plat,
         Invalid,
         SignalGen,
         SignalRev,
@@ -62,11 +70,35 @@ public class BaseModule : MonoBehaviour
         OrGate,
         CleanMachine
     }
-
     public ModuleType init_type;
-    public ModuleType current_type;
+    private Stack<ModuleType> all_types;
+    public ModuleType current_type
+    {
+        get
+        {
+             return all_types.Peek();
+        }
+    }
+    public bool isValid
+    {
+        get
+        {
+            return ((current_type == ModuleType.Empty || current_type == ModuleType.Plat)&&map.mouse_state!=DragType.Plat)
+                ||(current_type==ModuleType.Invalid&&map.mouse_state==DragType.Plat);
+        }
+    }
+
     public BaseModule bridge_out;//如果是BridgeIn，需要关联BridgeOut
 
+    //地图控制对象
+    private MapControl map;
+    //格子状态控制对象
+    private UIStateItem state;
+    //格子建筑的图片
+    private Image module_sprite;
+
+    //当前格子的信号状态
+    private ColorStream[] allInputs = new ColorStream[4];
     public ColorStream out_state
     {
         get
@@ -74,8 +106,8 @@ public class BaseModule : MonoBehaviour
             ColorStream output;
             switch (current_type)
             {
-                case ModuleType.Valid:
-                case ModuleType.Invalid:
+                case ModuleType.Empty:
+                case ModuleType.Plat:
                 default:
                     {
                         output = new ColorStream();
@@ -136,11 +168,22 @@ public class BaseModule : MonoBehaviour
         }
     }
 
+
     private void Awake()
     {
+    }
+    private void Start()
+    {
+        all_types = new Stack<ModuleType>();
+        all_types.Push(init_type);
+
+        map = MapControl.getInstance();
+        state = GetComponentInChildren<UIStateItem>();
+        module_sprite = transform.GetChild(0).GetComponent<Image>();
+
         int sibling_index = transform.GetSiblingIndex();
-        index_x = sibling_index / MapControl.n;
-        index_y = sibling_index % MapControl.n;
+        index_x = sibling_index / map.n;
+        index_y = sibling_index % map.n;
     }
 
     public void InputState(int direct,ColorStream color)
@@ -196,13 +239,6 @@ public class BaseModule : MonoBehaviour
     {
         switch (current_type)
         {
-            case ModuleType.Valid:
-            case ModuleType.Invalid:
-            case ModuleType.SignalRev:
-            default:
-                {
-                    break;
-                }
             case ModuleType.SignalGen:
             case ModuleType.BridgeOut:
             case ModuleType.SPipe:
@@ -249,6 +285,10 @@ public class BaseModule : MonoBehaviour
                     bridge_out.InputState(4, out_state);
                     break;
                 }
+            default:
+                {
+                    break;
+                }
         }
     }
 
@@ -264,12 +304,12 @@ public class BaseModule : MonoBehaviour
     {
         int next_x = index_x + d[direct, 0];
         int next_y = index_y + d[direct, 1];
-        if(next_x<0||next_x>=MapControl.m)
+        if(next_x<0||next_x>=map.m)
         {
             return false;
         }
 
-        if (next_y < 0 || next_y >= MapControl.n)
+        if (next_y < 0 || next_y >= map.n)
         {
             return false;
         }
@@ -280,11 +320,102 @@ public class BaseModule : MonoBehaviour
     {
         if(IsNextValid(direct))
         {
-            return MapControl.modules[index_x + d[direct, 0], index_y + d[direct, 1]];
+            return map.modules[index_x + d[direct, 0], index_y + d[direct, 1]];
         }
         else
         {
             return null;
         }
+    }
+
+    public void SetModule(ModuleType type,int direct)
+    {
+        all_types.Push(type);
+
+        string sprite_name=type.ToString();
+        string resource_locate = string.Format("ModuleSprites/{0}",sprite_name);
+
+        this.module_sprite.sprite = Resources.Load<Sprite>(resource_locate);
+        this.direct = direct;
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        if (map.mouse_state != DragType.Empty)
+        {
+            if (isValid)
+            {
+                state.SetStateActive();
+            }
+            else
+            {
+                state.SetStateDisabled();
+            }
+        }
+        
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Left)
+        {
+            if (map.mouse_state != DragType.Empty&&isValid)
+            {
+                ModuleType module_type = ModuleType.Empty;
+                switch (map.mouse_state)
+                {
+                    case DragType.TPipe:
+                        {
+                            module_type = ModuleType.TPipe;
+                            break;
+                        }
+                    case DragType.SPipe:
+                        {
+                            module_type = ModuleType.SPipe;
+                            break;
+                        }
+                    case DragType.XPipe:
+                        {
+                            module_type = ModuleType.XPipe;
+                            break;
+                        }
+                    case DragType.AndGate:
+                        {
+                            module_type = ModuleType.AndGate;
+                            break;
+                        }
+                    case DragType.OrGate:
+                        {
+                            module_type = ModuleType.OrGate;
+                            break;
+                        }
+                    case DragType.NotGate:
+                        {
+                            module_type = ModuleType.NotGate;
+                            break;
+                        }
+                    case DragType.Clean:
+                        {
+                            module_type = ModuleType.CleanMachine;
+                            break;
+                        }
+                    case DragType.Plat:
+                        {
+                            module_type = ModuleType.Plat;
+                            break;
+                        }
+                    default:
+                        break;
+                }
+                module_sprite.transform.rotation = map.drag_item.rotation;
+                SetModule(module_type, map.direct);
+            }
+        }
+    }
+
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+    {
+        state.SetStateDefault();
+        
     }
 }
