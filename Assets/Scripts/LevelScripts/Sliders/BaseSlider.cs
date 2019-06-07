@@ -16,6 +16,8 @@ public class BaseSlider : MonoBehaviour
         {
             fill_img[i] = sliders[i].transform.GetChild(0).Find("Fill").GetComponent<Image>();
         }
+
+        CleanPipe();
     }
 
 

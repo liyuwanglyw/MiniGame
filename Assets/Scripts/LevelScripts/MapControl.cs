@@ -19,7 +19,7 @@ public class MapControl : MonoBehaviour
 {
     public BaseModule[,] modules;
     public int m,n;
-
+    private List<BaseModule> signal_gen;
 
 
     public DragType mouse_state=DragType.Empty;
@@ -67,7 +67,7 @@ public class MapControl : MonoBehaviour
             for (int j = 0; j < n; j++)
             {
                 modules[i, j] = mod[i * n + j];
-                
+
             }
         }
 

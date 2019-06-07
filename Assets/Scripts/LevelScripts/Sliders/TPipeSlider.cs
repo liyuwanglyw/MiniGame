@@ -6,7 +6,7 @@ public class TPipeSlider : BaseSlider
 {
     private void Start()
     {
-        StartCoroutine(Test());
+        //StartCoroutine(Test());
     }
 
     // Update is called once per frame
