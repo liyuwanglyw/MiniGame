@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TPipeSlider : BaseSlider
+public class XPipeSlider : BaseSlider
 {
     private void Start()
     {
@@ -52,12 +52,12 @@ public class TPipeSlider : BaseSlider
         {
             sliders[1].value += flow_speed * Time.deltaTime;
             sliders[2].value += flow_speed * Time.deltaTime;
+            sliders[3].value += flow_speed * Time.deltaTime;
             if (sliders[1].value > 99)
             {
                 break;
             }
             yield return null;
         }
-
     }
 }

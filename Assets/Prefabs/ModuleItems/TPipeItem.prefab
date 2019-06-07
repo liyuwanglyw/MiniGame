@@ -1197,7 +1197,6 @@ GameObject:
   - component: {fileID: 8457810402798929725}
   - component: {fileID: 8457810402798929698}
   - component: {fileID: 8457810402798929727}
-  - component: {fileID: 8457810402798929724}
   m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
@@ -1277,16 +1276,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 0
---- !u!114 &8457810402798929724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8457810402798929726}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d2dcec640a4070843910e149387b193e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  flow_speed: 200
