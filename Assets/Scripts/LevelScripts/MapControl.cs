@@ -33,10 +33,12 @@ public class MapControl : MonoBehaviour
 
     public static MapControl instance;
 
+    public SpawnPool pool;
     private void Awake()
     {
         instance = this;
         GameStart();
+        pool = GameObject.Find("Managers").GetComponent<SpawnPool>();
     }
 
     public static MapControl getInstance()
@@ -65,8 +67,11 @@ public class MapControl : MonoBehaviour
             for (int j = 0; j < n; j++)
             {
                 modules[i, j] = mod[i * n + j];
+                
             }
         }
+
+
     }
 
     private void Update()
@@ -92,7 +97,6 @@ public class MapControl : MonoBehaviour
                 direct += 1;
                 direct %= 4;
             }
-           
         }
     }
 

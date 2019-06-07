@@ -39,6 +39,19 @@ public class ColorStream
     public bool isValid;
     public bool isPolluted;
     public bool r,g,b;
+
+    public Color real_color
+    {
+        get
+        {
+            Color real = new Color();
+            real.r = this.r ? 1 : 0;
+            real.g = this.g ? 1 : 0;
+            real.b = this.b ? 1 : 0;
+            real.a = 1;
+            return real;
+        }
+    }
 }
 
 public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandler,IPointerExitHandler
@@ -93,9 +106,22 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
     //地图控制对象
     private MapControl map;
     //格子状态控制对象
-    private UIStateItem state;
+    private UIStateItem state
+    {
+        get
+        {
+            return GetComponentInChildren<UIStateItem>();
+        }
+    }
     //格子建筑的图片
-    private Image module_sprite;
+    private Image module_sprite
+    {
+        get
+        {
+            return transform.GetChild(0).GetComponent<Image>();
+        }
+    }
+
 
     //当前格子的信号状态
     private ColorStream[] allInputs = new ColorStream[4];
@@ -141,6 +167,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                         ColorStream input_b = allInputs[(direct + 3) % 4];
                         output = new ColorStream(input_a.r&&input_b.r,input_a.g&&input_b.g,
                             input_a.b&&input_b.b);
+                        output.isValid = input_a.isValid && input_b.isValid;
                         output.isPolluted = input_a.isPolluted||input_b.isPolluted;
                         break;
                     }
@@ -150,6 +177,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                         ColorStream input_b = allInputs[(direct + 3) % 4];
                         output = new ColorStream(input_a.r || input_b.r, input_a.g || input_b.g,
                             input_a.b || input_b.b);
+                        output.isValid = input_a.isValid && input_b.isValid;
                         output.isPolluted = input_a.isPolluted || input_b.isPolluted;
                         break;
                     }
@@ -168,18 +196,23 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         }
     }
 
-
+    private BaseSlider pipe_control;
     private void Awake()
     {
     }
     private void Start()
     {
+        pipe_control = GetComponentInChildren<BaseSlider>();
+
+        for(int i=0;i<allInputs.Length;i++)
+        {
+            allInputs[i] = new ColorStream();
+        }
+
         all_types = new Stack<ModuleType>();
         all_types.Push(init_type);
 
         map = MapControl.getInstance();
-        state = GetComponentInChildren<UIStateItem>();
-        module_sprite = transform.GetChild(0).GetComponent<Image>();
 
         int sibling_index = transform.GetSiblingIndex();
         index_x = sibling_index / map.n;
@@ -332,10 +365,22 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
     {
         all_types.Push(type);
 
-        string sprite_name=type.ToString();
-        string resource_locate = string.Format("ModuleSprites/{0}",sprite_name);
+        //删除原有module对象,从对象池中获得组件预设，并进行更换
+        Destroy(transform.GetChild(0).gameObject);
+        Transform module = MapControl.getInstance().pool.Spawn(type + "Module", transform);
+        module.GetComponent<RectTransform>().localPosition = Vector3.zero;
 
-        this.module_sprite.sprite = Resources.Load<Sprite>(resource_locate);
+        //改变组件预设的大小和角度
+        Vector2 rect_size = transform.GetComponent<RectTransform>().sizeDelta;
+        Debug.Log(rect_size);
+        //module.GetComponent<RectTransform>().sizeDelta = new Vector2(rect_size.x - 2, rect_size.y - 2);
+        Debug.Log(module.GetComponent<RectTransform>().sizeDelta);
+        module.rotation = map.drag_item.rotation;
+
+        //string sprite_name=type.ToString();
+        //string resource_locate = string.Format("ModuleSprites/{0}",sprite_name);
+
+        //this.module_sprite.sprite = Resources.Load<Sprite>(resource_locate);
         this.direct = direct;
     }
 
@@ -407,7 +452,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                     default:
                         break;
                 }
-                module_sprite.transform.rotation = map.drag_item.rotation;
+
                 SetModule(module_type, map.direct);
             }
         }
@@ -416,6 +461,47 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
     void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
     {
         state.SetStateDefault();
-        
+    }
+
+    public void FillPipe()
+    {
+        if (out_state.isValid)
+        {
+            switch (current_type)
+            {
+                case ModuleType.SignalGen:
+                case ModuleType.BridgeOut:
+                case ModuleType.SPipe:
+                case ModuleType.NotGate:
+                case ModuleType.CleanMachine:
+                case ModuleType.TPipe:
+                case ModuleType.XPipe:
+                case ModuleType.BridgeIn:
+                    {
+                        Color[] colors = new Color[4];
+                        for (int i = 0; i < colors.Length; i++)
+                        {
+                            colors[i] = out_state.real_color;
+                        }
+                        pipe_control.FillPipe(colors);
+                        break;
+                    }
+
+                case ModuleType.AndGate:
+                case ModuleType.OrGate:
+                    {
+                        Color[] colors = new Color[3];
+                        colors[0] = allInputs[direct].real_color;
+                        colors[1] = allInputs[(direct + 3) % 4].real_color;
+                        colors[2] = allInputs[(direct + 2) % 4].real_color;
+                        pipe_control.FillPipe(colors);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
     }
 }
