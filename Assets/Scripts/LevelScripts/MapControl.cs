@@ -193,6 +193,17 @@ public class MapControl : MonoBehaviour
             mouse_state = type;
         }
     }
+
+    public void ResetLevel()
+    {
+        for(int i=0;i<modules.GetLength(0);i++)
+        {
+            for(int j=0;j<modules.GetLength(1);j++)
+            {
+                modules[i, j].ResetModule();
+            }
+        }
+    }
     
 
 }

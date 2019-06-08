@@ -9294,7 +9294,18 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1826014692}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1868718775}
+        m_MethodName: ResetLevel
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.UI.Button+ButtonClickedEvent, UnityEngine.UI, Version=1.0.0.0,
       Culture=neutral, PublicKeyToken=null
 --- !u!114 &1826014692
@@ -9651,7 +9662,7 @@ PrefabInstance:
     - target: {fileID: 6796059517953795973, guid: 35bb0496f38926743a091396be0bc328,
         type: 3}
       propertyPath: _perPrefabPoolOptions.Array.size
-      value: 9
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6796059517953795973, guid: 35bb0496f38926743a091396be0bc328,
         type: 3}
@@ -9761,6 +9772,17 @@ PrefabInstance:
         type: 3}
       propertyPath: _perPrefabPoolOptions.Array.data[8].preloadAmount
       value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 6796059517953795973, guid: 35bb0496f38926743a091396be0bc328,
+        type: 3}
+      propertyPath: _perPrefabPoolOptions.Array.data[9].prefab
+      value: 
+      objectReference: {fileID: 3627900335796112800, guid: d87c436094954b94696a1e4717adf751,
+        type: 3}
+    - target: {fileID: 6796059517953795973, guid: 35bb0496f38926743a091396be0bc328,
+        type: 3}
+      propertyPath: _perPrefabPoolOptions.Array.data[9].preloadAmount
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35bb0496f38926743a091396be0bc328, type: 3}
@@ -10819,6 +10841,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3907040698044537430, guid: c2f87eba873b7ae4ca5151da6c988bf6,
+        type: 3}
+      propertyPath: m_Name
+      value: InvalidModule
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c2f87eba873b7ae4ca5151da6c988bf6, type: 3}

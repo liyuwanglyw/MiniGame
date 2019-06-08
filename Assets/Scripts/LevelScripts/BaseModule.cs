@@ -408,6 +408,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
     {
         //删除原有module对象,从对象池中获得组件预设，并进行更换
         Destroy(transform.GetChild(0).gameObject);
+        Debug.Log(type + "Module");
         Transform module = MapControl.getInstance().pool.Spawn(type + "Module", transform);
         
         //改变组件预设的位置、大小、角度
@@ -476,17 +477,14 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log(1);
         if (eventData.button == PointerEventData.InputButton.Left)
         {
-            Debug.Log(map.mouse_state);
             if(map.mouse_state==DragType.Sold)
             {
                 SoldModule();
             }
             else if (map.mouse_state != DragType.Empty&&isValid)
             {
-                Debug.Log(2);
                 //根据鼠标拖拽的对象更改组件
                 ModuleType module_type = ModuleType.Empty;
                 switch (map.mouse_state)
@@ -675,6 +673,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
             case ModuleType.OrGate:
             case ModuleType.CleanMachine:
                 {
+                    Debug.Log(1);
                     all_types.Pop();
                     SetModule(current_type, 0);
                     UpdateModule();
@@ -685,5 +684,19 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                     break;
                 }
         }
+    }
+
+    public void ResetModule()
+    {
+        //没有改变过状态
+        if(all_types.Count==1)
+        {
+            return;
+        }
+        while(all_types.Count>0)
+        {
+            all_types.Pop();
+        }
+        AddModule(init_type);
     }
 }
