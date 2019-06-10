@@ -15,7 +15,7 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
 
         CharacterController _characterController;
 
-        bool _movementAllowed = true;
+        public bool _movementAllowed = true;
 
         void Start()
         {

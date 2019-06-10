@@ -65,7 +65,6 @@ public class DoorControl : MonoBehaviour
     private void FindNearDoor()
     {
         i = 0;
-        nearestdoor = door[0];
         while (i<18)
         {
             if (Vector3.Distance(door[i].transform.position, Character.transform.position) < Vector3.Distance(nearestdoor.transform.position, Character.transform.position))
