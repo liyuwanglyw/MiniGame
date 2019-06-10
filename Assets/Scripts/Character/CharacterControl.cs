@@ -25,7 +25,17 @@ public class CharacterControl : MonoBehaviour
             this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 90, 0);
             _animator.SetBool("Walk", true);
         }
-       else 
+        else if (Input.GetKey(KeyCode.W))
+        {
+            this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 0, 0);
+            _animator.SetBool("Walk", true);
+        }
+        else if (Input.GetKey(KeyCode.S))
+        {
+            this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 180, 0);
+            _animator.SetBool("Walk", true);
+        }
+        else 
         {
             _animator.SetBool("Walk", false );
         }
