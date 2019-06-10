@@ -4,25 +4,39 @@ using UnityEngine;
 
 public class CharacterControl : MonoBehaviour
 {
-    private GameObject Robin = GameObject.Find("Robin");
+    private Animator _animator;
+
     // Start is called before the first frame update
     void Start()
     {
-        
+        _animator = this.GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        Walk();
+       if(Input .GetKey  (KeyCode.A))
+        {
+            this.GetComponent<Transform>().localRotation = Quaternion .Euler (0,-90,0);
+            _animator.SetBool("Walk", true);
+        }
+       else if(Input.GetKey(KeyCode.D))
+        {
+            this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 90, 0);
+            _animator.SetBool("Walk", true);
+        }
+       else 
+        {
+            _animator.SetBool("Walk", false );
+        }
+       
     }
     
     private void Walk()
     {
-        Animation anim = Robin.GetComponent<Animation >();
-        AnimationClip walk = anim.GetClip("Run");
-
-        anim.clip = walk;
-        anim.Play();
+      //  AnimatorOverrideController  anim = Robin.GetComponent<Animator >().runtimeAnimatorController ;
+      
+        
+;
     }
 }
