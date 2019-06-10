@@ -8,6 +8,7 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
     {
         public GameObject disablecamera;
         public GameObject enablecamera;
+        public GameObject dest;
         // Start is called before the first frame update
         void Start()
         {
@@ -21,13 +22,12 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
         }
         private void OnTriggerEnter(Collider other)                    //OnTriggerStar   刚开始接触就运行下面的命令
         {
-            print("你碰着我了");
-            Vector3 telepoint = GameObject.Find("room1to2spawnpoint").transform.position;
+            Vector3 telepoint = dest.transform.position;
             Debug.Log(telepoint);
             GameObject.Find("Robin").GetComponent<PlayerInput>()._movementAllowed = false;
             GameObject.Find("Robin").transform.position = telepoint;
-            enablecamera.SetActive(true);
             disablecamera.SetActive(false);
+            enablecamera.SetActive(true);
             Invoke("getc", 0.1f);
         }
 
