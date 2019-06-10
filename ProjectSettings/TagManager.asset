@@ -7,6 +7,7 @@ TagManager:
   - Mark
   - TargetMark
   - map
+  - door
   layers:
   - Default
   - TransparentFX

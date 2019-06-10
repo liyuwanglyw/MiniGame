@@ -127,7 +127,7 @@ GameObject:
   - component: {fileID: 25483086}
   m_Layer: 0
   m_Name: DoorRight
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -218,16 +218,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 2
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: 13, y: 0, z: 32.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &26133040
 GameObject:
   m_ObjectHideFlags: 0
@@ -425,7 +428,7 @@ GameObject:
   - component: {fileID: 74351574}
   m_Layer: 0
   m_Name: DoorRight
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -516,16 +519,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 6
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: -27.5, y: 0, z: 2.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &120932627
 GameObject:
   m_ObjectHideFlags: 0
@@ -538,6 +544,8 @@ GameObject:
   - component: {fileID: 120932630}
   - component: {fileID: 120932629}
   - component: {fileID: 120932628}
+  - component: {fileID: 120932633}
+  - component: {fileID: 120932632}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -575,7 +583,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 871750772bc61254a9f8262c7a4889fc, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -611,12 +619,44 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 120932627}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -26.6, y: 16, z: 0}
+  m_LocalPosition: {x: -7.31, y: 0, z: 2.53}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &120932632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120932627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4ec74b66098a4f9eb5b9370cb16ebf6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  RunSpeed: 12
+  Acceleration: 30
+--- !u!143 &120932633
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 120932627}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1
+  m_Radius: 0.5
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &122018975
 GameObject:
   m_ObjectHideFlags: 0
@@ -1005,7 +1045,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 198107234}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.647236, y: 22.249863, z: 0.12726688}
+  m_LocalPosition: {x: -17.647236, y: 22.249863, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1857726149}
@@ -1044,7 +1084,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 234227476}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.352764, y: 22.249863, z: 0.12726688}
+  m_LocalPosition: {x: 22.352764, y: 22.249863, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 996524355}
@@ -1286,7 +1326,7 @@ GameObject:
   - component: {fileID: 359388589}
   m_Layer: 0
   m_Name: DoorRight
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1377,16 +1417,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 0
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: -27.5, y: 0, z: 32.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &359786875
 GameObject:
   m_ObjectHideFlags: 0
@@ -1584,7 +1627,7 @@ GameObject:
   - component: {fileID: 384247662}
   m_Layer: 0
   m_Name: DoorLeft
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1617,16 +1660,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 0
   Character_Pos: {x: 0, y: 0, z: 0}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!65 &384247663
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1700,7 +1746,7 @@ GameObject:
   - component: {fileID: 400917608}
   m_Layer: 0
   m_Name: DoorLeft
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1791,16 +1837,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 2
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: 27.5, y: 0, z: 32.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &411231178
 GameObject:
   m_ObjectHideFlags: 0
@@ -2262,7 +2311,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 546187454}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.3527648, y: 22.249863, z: 0.12726688}
+  m_LocalPosition: {x: 2.3527648, y: 22.249863, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1715044611}
@@ -2301,7 +2350,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 592142052}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.3527648, y: 7.2498617, z: 0.12726688}
+  m_LocalPosition: {x: 2.3527648, y: 7.2498617, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 533294112}
@@ -2331,7 +2380,7 @@ GameObject:
   - component: {fileID: 593520317}
   m_Layer: 0
   m_Name: DoorRight
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2422,16 +2471,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 7
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: 12.5, y: 0, z: 17.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &600655969
 GameObject:
   m_ObjectHideFlags: 0
@@ -2494,13 +2546,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 600655969}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.3527648, y: -7.2498617, z: -18.1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -2.3527648, y: 7.1, z: -18.1}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &737000319
 GameObject:
   m_ObjectHideFlags: 0
@@ -2525,7 +2577,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 737000319}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.647236, y: 7.2498617, z: 0.12726688}
+  m_LocalPosition: {x: -17.647236, y: 7.2498617, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1293540163}
@@ -2646,7 +2698,7 @@ GameObject:
   - component: {fileID: 811925608}
   m_Layer: 0
   m_Name: DoorRight
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2737,16 +2789,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 0
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: -27, y: 0, z: 32.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &812223039
 GameObject:
   m_ObjectHideFlags: 0
@@ -2944,7 +2999,7 @@ GameObject:
   - component: {fileID: 896972327}
   m_Layer: 0
   m_Name: DoorLeft
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3035,16 +3090,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 3
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: -12.5, y: 0, z: 17.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &902314678
 GameObject:
   m_ObjectHideFlags: 0
@@ -3333,7 +3391,7 @@ GameObject:
   - component: {fileID: 910904937}
   m_Layer: 0
   m_Name: DoorRight
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3424,16 +3482,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 5
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: 12.5, y: 0, z: 17.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &936788422
 GameObject:
   m_ObjectHideFlags: 0
@@ -3786,7 +3847,7 @@ GameObject:
   - component: {fileID: 964352491}
   m_Layer: 0
   m_Name: DoorLeft
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3877,16 +3938,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 1
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: 7, y: 0, z: 32.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &965290339
 GameObject:
   m_ObjectHideFlags: 0
@@ -3902,7 +3966,7 @@ GameObject:
   - component: {fileID: 965290344}
   m_Layer: 0
   m_Name: DoorLeft
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3993,16 +4057,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 7
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: 7.5, y: 0, z: 2.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &965379611
 GameObject:
   m_ObjectHideFlags: 0
@@ -4026,8 +4093,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 965379611}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.3527648, y: -7.2498617, z: 10.2734375}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -2.3527648, y: 0, z: 10.2734375}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 198107235}
@@ -4041,7 +4108,7 @@ Transform:
   - {fileID: 1939255687}
   m_Father: {fileID: 0}
   m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
 --- !u!1 &996524354
 GameObject:
   m_ObjectHideFlags: 0
@@ -4685,7 +4752,7 @@ GameObject:
   - component: {fileID: 1099160813}
   m_Layer: 0
   m_Name: DoorLeft
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4776,16 +4843,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 0
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: 27.5, y: 0, z: 2.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &1103294518
 GameObject:
   m_ObjectHideFlags: 0
@@ -4801,7 +4871,7 @@ GameObject:
   - component: {fileID: 1103294523}
   m_Layer: 0
   m_Name: DoorLeft
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -4892,16 +4962,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 1
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: 7, y: 0, z: 32.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &1151893224
 GameObject:
   m_ObjectHideFlags: 0
@@ -4917,7 +4990,7 @@ GameObject:
   - component: {fileID: 1151893229}
   m_Layer: 0
   m_Name: DoorRight
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5008,16 +5081,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 4
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: -7.5, y: 0, z: 17.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &1154225583
 GameObject:
   m_ObjectHideFlags: 0
@@ -6125,7 +6201,7 @@ GameObject:
   - component: {fileID: 1444094222}
   m_Layer: 0
   m_Name: DoorRight
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6216,16 +6292,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 5
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: 12.5, y: 0, z: 17.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &1454944126
 GameObject:
   m_ObjectHideFlags: 0
@@ -6678,7 +6757,7 @@ GameObject:
   - component: {fileID: 1603414912}
   m_Layer: 0
   m_Name: DoorLeft
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6769,16 +6848,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 6
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: -12.5, y: 0, z: 2.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &1641588890
 GameObject:
   m_ObjectHideFlags: 0
@@ -6794,7 +6876,7 @@ GameObject:
   - component: {fileID: 1641588892}
   m_Layer: 0
   m_Name: DoorRight
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -6827,16 +6909,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 0
   Character_Pos: {x: 0, y: 0, z: 0}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!65 &1641588893
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6919,7 +7004,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1658082350}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.352764, y: 7.2498617, z: 0.12726688}
+  m_LocalPosition: {x: 22.352764, y: 7.2498617, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1258908374}
@@ -7586,7 +7671,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1873311619}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -17.647236, y: -7.7501383, z: 0.12726688}
+  m_LocalPosition: {x: -17.647236, y: -7.7501383, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1399297460}
@@ -7716,7 +7801,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1939255686}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.352764, y: -7.7501383, z: 0.12726688}
+  m_LocalPosition: {x: 22.352764, y: -7.7501383, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 434330733}
@@ -7937,7 +8022,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2029319134}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.3527648, y: -7.7501383, z: 0.12726688}
+  m_LocalPosition: {x: 2.3527648, y: -7.7501383, z: 10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1789581464}
@@ -8058,7 +8143,7 @@ GameObject:
   - component: {fileID: 2043315809}
   m_Layer: 0
   m_Name: DoorLeft
-  m_TagString: Untagged
+  m_TagString: door
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -8149,16 +8234,19 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Key: 0
   obj:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1561104764}
+  - {fileID: 502133388}
+  - {fileID: 961418940}
+  - {fileID: 448248925}
+  - {fileID: 960044312}
+  - {fileID: 1082164406}
+  - {fileID: 1465781703}
+  - {fileID: 1699130975}
+  - {fileID: 936788422}
   n: 3
-  Character_Pos: {x: 0, y: 0, z: 0}
+  Character_Pos: {x: -12.5, y: 0, z: 17.5}
+  Dis: 0
+  nearestdoor: {fileID: 0}
 --- !u!1 &2044197272
 GameObject:
   m_ObjectHideFlags: 0
