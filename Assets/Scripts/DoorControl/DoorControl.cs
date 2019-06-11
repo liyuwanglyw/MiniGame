@@ -8,7 +8,7 @@ public class Doorcontrol : MonoBehaviour
     public Vector3 initposition;
     public Vector3 stopposition;
     public bool isdooropen = false;
-
+    bool isaudioplay = false;
     void Start()
     {
         initposition = this.transform.position;
@@ -20,7 +20,13 @@ public class Doorcontrol : MonoBehaviour
     {
         if (isdooropen && initposition.z<stopposition.z)
         {
-            initposition = new Vector3(initposition.x, initposition.y, initposition.z + 0.05f);
+            if (!isaudioplay)
+            {
+                GameObject.Find("门打开").GetComponent<AudioSource>().Play();
+                isaudioplay = true;
+                
+            }
+            initposition = new Vector3(initposition.x, initposition.y, initposition.z + 0.015f);
             this.transform.position = initposition;
         }
     }
