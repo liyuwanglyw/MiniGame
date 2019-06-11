@@ -5,6 +5,7 @@ using UnityEngine;
 public class CharacterControl : MonoBehaviour
 {
     private Animator _animator;
+    public GameObject Openlevel;
 
     // Start is called before the first frame update
     void Start()
@@ -34,6 +35,10 @@ public class CharacterControl : MonoBehaviour
         {
             this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 180, 0);
             _animator.SetBool("Walk", true);
+        }
+        else if (Input.GetKey(KeyCode.F))
+        {
+            Openlevel.SetActive(true);
         }
         else 
         {

@@ -33,7 +33,7 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
 
         private void OnTriggerStay(Collider other)
         {
-            Vector3 telepoint = GameObject.Find("room1to2spawnpoint").transform.position;
+            Vector3 telepoint = dest.transform.position;
             Debug.Log(telepoint);
             GameObject.Find("Robin").transform.position = telepoint;
         }
