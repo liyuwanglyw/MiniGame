@@ -54,12 +54,19 @@ public class ColorStream
     {
         get
         {
-            Color real = new Color();
-            real.r = this.r ? 1 : 0;
-            real.g = this.g ? 1 : 0;
-            real.b = this.b ? 1 : 0;
-            real.a = 1;
-            return real;
+            if (isPolluted)
+            {
+                return Color.gray;
+            }
+            else
+            {
+                Color real = new Color();
+                real.r = this.r ? 1 : 0;
+                real.g = this.g ? 1 : 0;
+                real.b = this.b ? 1 : 0;
+                real.a = 1;
+                return real;
+            }
         }
     }
 }
@@ -242,11 +249,17 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
             allInputs[0] = gen_color;
             OutputState();
         }
+
+        if (current_type == ModuleType.SignalRev)
+        {
+            Debug.Log(rev_color.real_color);
+            Debug.Log(direct);
+            FillPipe();
+        }
     }
 
     public void InputState(int direct,ColorStream color)
     {
-
         direct %= 4;
         switch(current_type)
         {
@@ -261,11 +274,19 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                     break;
                 }
             case ModuleType.SignalRev:
+                {
+                    if (direct == this.direct)
+                    {
+                        allInputs[direct] = new ColorStream(color);
+                    }
+                    break;
+                }
             case ModuleType.BridgeIn:
             case ModuleType.SPipe:
             case ModuleType.TPipe:
             case ModuleType.XPipe:
             case ModuleType.NotGate:
+            case ModuleType.CleanMachine:
                 {
                     if(direct==this.direct)
                     {
@@ -294,7 +315,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 
     public virtual void OutputState()
     {
-        if (out_state.isValid&&current_type!=ModuleType.SignalRev)
+        if (out_state.isValid)
         {
             FillPipe();
             
@@ -304,6 +325,10 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 
     public void OutputState(int d)
     {
+        if(current_type==ModuleType.SignalRev)
+        {
+
+        }
         if (out_state.isValid)
         {
             switch (current_type)
@@ -333,7 +358,6 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                             BaseModule next_a = GetNextModule(d);
                             if (next_a != null)
                             {
-                                Debug.Log(2);
                                 next_a.InputState((d+2)%4, out_state);
                             }
                         }
@@ -545,13 +569,22 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 
     public void FillPipe()
     {
+        if (current_type == ModuleType.SignalRev)
+        {
+            Color[] colors = new Color[4];
+            for (int i = 0; i < colors.Length; i++)
+            {
+                colors[i] = rev_color.real_color;
+            }
+            pipe_control.FillPipe(colors);
+        }
+
         pipe_control.CleanPipe();
         if (out_state.isValid)
         {
             switch (current_type)
             {
                 case ModuleType.SignalGen:
-                case ModuleType.SignalRev:
                 case ModuleType.BridgeOut:
                 case ModuleType.SPipe:
                 case ModuleType.TPipe:
@@ -653,7 +686,6 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 
     private void AddModule(ModuleType module_type)
     {
-        Debug.Log(module_type);
         all_types.Push(module_type);
         SetModule(module_type, map.direct);
         UpdateModule();
