@@ -79,6 +79,7 @@ public class MapControl : MonoBehaviour
     {
         return instance;
     }
+
     #region 测试用函数
     public void TestStart()
     {
@@ -212,7 +213,7 @@ public class MapControl : MonoBehaviour
             }
         }
     }
-
+    
     //添加游戏结束相应函数
     public void SetGameOverCallBack(GameOverCallBack callBack)
     {
@@ -227,7 +228,9 @@ public class MapControl : MonoBehaviour
         }
         game_over += callBack;
     }
-    
+    #endregion
+
+    #region 游戏关卡控制
     //开始关卡
     public bool StartLevel(string level_name, GameOverCallBack callBack = null)
     {
@@ -293,21 +296,7 @@ public class MapControl : MonoBehaviour
                 signal_rev[i].out_state.print();
             }
         }
-
-        //if(Input.GetKeyDown(KeyCode.Alpha1))
-        //{
-        //    HideGame();
-        //}
-        //else if (Input.GetKeyDown(KeyCode.Alpha2))
-        //{
-        //    ShowGame();
-        //}
-        //else if (Input.GetKeyDown(KeyCode.Alpha3))
-        //{
-        //    HideGame();
-        //    StartLevel("TestLevel1",Over2);
-
-        //}
+        
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
