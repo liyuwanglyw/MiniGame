@@ -20,10 +20,30 @@ public enum DragType
 public class MapControl : MonoBehaviour
 {
     public Transform drag_item;     //拖拽时显示的图片
-    public GameObject map_panel;    //地图Panel对象
-    public GameObject drag_panel;   //拖拽Panel对象
-    public GameObject gold_panel;   //金币Panel对象
-    public Texture2D sold_cursor;   //出售物品时鼠标指针
+    public GameObject level_panel; //关卡预设
+    public GameObject map_panel     //地图Panel对象
+    {
+        get
+        {
+            return level_panel.transform.GetChild(0).gameObject;
+        }
+    }    
+    public GameObject drag_panel     //拖拽Panel对象
+     {
+        get
+        {
+            return level_panel.transform.GetChild(1).gameObject;
+        }
+    } 
+    public GameObject help_panel     //点击问号跳出的提示框
+    {
+        get
+        {
+            return level_panel.transform.GetChild(2).gameObject;
+        }
+    }
+    public GameObject gold_panel;    //金币Panel对象
+    public Texture2D sold_cursor;    //出售物品时鼠标指针
     
     private Transform back_area
     {
@@ -109,8 +129,10 @@ public class MapControl : MonoBehaviour
         //初始化m，n的值
         Vector2 rect_size = map_panel.GetComponent<RectTransform>().rect.size;
         Vector2 cell_size = map_panel.GetComponent<GridLayoutGroup>().cellSize;
-        n = (int)(rect_size.x / cell_size.x);
-        m = map_panel.transform.childCount / n;
+        int max_column=(int)(rect_size.x / cell_size.x);
+        n = (max_column < map_panel.transform.childCount ? max_column : map_panel.transform.childCount);
+        m = Mathf.CeilToInt(map_panel.transform.childCount / (float)max_column);
+        
 
         //获取对象池
         pool = GameObject.Find("Managers").GetComponent<SpawnPool>();
@@ -202,18 +224,6 @@ public class MapControl : MonoBehaviour
         game_over();
     }
     
-    //重置关卡
-    public void ResetLevel()
-    {
-        for (int i = 0; i < modules.GetLength(0); i++)
-        {
-            for (int j = 0; j < modules.GetLength(1); j++)
-            {
-                modules[i, j].ResetModule();
-            }
-        }
-    }
-    
     //添加游戏结束相应函数
     public void SetGameOverCallBack(GameOverCallBack callBack)
     {
@@ -250,24 +260,35 @@ public class MapControl : MonoBehaviour
             SetGameOverCallBack(callBack);
 
             GameObject next_level = Instantiate(level_prefab);
-            GameObject current_level = map_panel;
+            GameObject current_level = level_panel;
 
             next_level.transform.parent = back_area;
-            next_level.transform.position = current_level.transform.position;
-            next_level.transform.localScale = current_level.transform.localScale;
-            next_level.transform.rotation = current_level.transform.rotation;
-            next_level.GetComponent<RectTransform>().sizeDelta = current_level.GetComponent<RectTransform>().sizeDelta;
+            next_level.transform.localPosition = current_level.transform.localPosition;
+            next_level.transform.localScale= current_level.transform.localScale;
+            next_level.transform.rotation= current_level.transform.rotation;
             next_level.transform.SetSiblingIndex(0);
 
             Destroy(current_level);
 
-            map_panel = next_level;
+            level_panel = next_level;
             GameInit();
             return true;
         }
         else
         {
             return false;
+        }
+    }
+
+    //重置关卡
+    public void ResetLevel()
+    {
+        for (int i = 0; i < modules.GetLength(0); i++)
+        {
+            for (int j = 0; j < modules.GetLength(1); j++)
+            {
+                modules[i, j].ResetModule();
+            }
         }
     }
 
@@ -290,7 +311,7 @@ public class MapControl : MonoBehaviour
         {
             Debug.Log(1);
             //MapControl map=MapControl.getInstance();
-           StartLevel("TestLevel1", Over);
+           StartLevel("LevelPrefab1", Over);
             //map.HideGame();
         }
         if (Input.GetKeyDown(KeyCode.Space))
@@ -408,4 +429,8 @@ public class MapControl : MonoBehaviour
     }
     #endregion
 
+    public void ShowNote()
+    {
+        help_panel.gameObject.SetActive(true);
+    }
 }

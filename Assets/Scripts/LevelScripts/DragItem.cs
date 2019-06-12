@@ -5,13 +5,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-public class DragItem : MonoBehaviour,IPointerClickHandler
+public class DragItem : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,IPointerExitHandler
 {
     public DragType type;
+    public string note;
     
     private Sprite sprite;
     private Text gold_text;
     private MapControl map;
+    private float enter_time=0;
+    private bool isMouseStay = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -29,8 +32,8 @@ public class DragItem : MonoBehaviour,IPointerClickHandler
     
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
-        
-        if(eventData.button==PointerEventData.InputButton.Left)
+        isMouseStay = false;
+        if (eventData.button==PointerEventData.InputButton.Left)
         {
             int gold = map.GetModuleCost(type);
             if (map.mouse_state==DragType.Empty&&map.gold>=gold)
@@ -43,6 +46,33 @@ public class DragItem : MonoBehaviour,IPointerClickHandler
                 map.direct = 0;
                 map.isUsed = false;
             }
+        }
+    }
+
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
+    {
+        isMouseStay = true;
+        enter_time = Time.time;
+        StartCoroutine(CheckMouseStay());
+    }
+
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData)
+    {
+        isMouseStay = false;
+        ModuleNote.instance.gameObject.SetActive(false);
+    }
+
+    private IEnumerator CheckMouseStay()
+    {
+        while(isMouseStay)
+        {
+            if(Time.time-enter_time>0.5f)
+            {
+                ModuleNote.instance.gameObject.SetActive(true);
+                ModuleNote.instance.SetNote(note);
+                ModuleNote.instance.SetPosition(transform.position);
+            }
+            yield return null;
         }
     }
 }
