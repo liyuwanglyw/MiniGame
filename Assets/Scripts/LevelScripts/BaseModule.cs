@@ -260,7 +260,8 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         }
     }
 
-
+    [HideInInspector]
+    public bool isInit = false;
     private void Awake()
     {
     }
@@ -293,6 +294,8 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         {
             allInputs[0] = gen_color;
         }
+
+        isInit = true;
     }
 
     #region module状态传播
@@ -624,7 +627,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
             case ModuleType.TPipe:
             case ModuleType.SPipe:
             case ModuleType.XPipe:
-            case ModuleType.OrGate:
+            case ModuleType.NotGate:
             case ModuleType.CleanMachine:
                 {
                     BaseModule next = GetNextModule(direct);
@@ -634,7 +637,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                     }
                     break;
                 }
-            case ModuleType.NotGate:
+            case ModuleType.OrGate:
             case ModuleType.AndGate:
                 {
                     BaseModule next_a = GetNextModule(direct);

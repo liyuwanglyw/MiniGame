@@ -73,23 +73,29 @@ public class MapControl : MonoBehaviour
     {
         instance = this;
         GameInit();
-        Invoke("TestStart", 1f);
     }
     
     public static MapControl getInstance()
     {
         return instance;
     }
+    #region 测试用函数
     public void TestStart()
     {
         GameStart();
-        AddGameOverCallBack(Over);
+        SetGameOverCallBack(Over);
     }
 
     public void Over()
     {
         Debug.Log("over");
     }
+
+    public void Over2()
+    {
+        Debug.Log("over2");
+    }
+    #endregion
 
     #region 游戏流程控制
     //游戏进程初始化
@@ -140,7 +146,32 @@ public class MapControl : MonoBehaviour
     //开始游戏
     public void GameStart()
     {
-        for(int i=0;i<signal_gen.Count;i++)
+        StartCoroutine(CheckGameStart());
+    }
+
+    //在模块都初始化完毕后才开始游戏
+    private IEnumerator CheckGameStart()
+    {
+        bool isModuleInit = false;
+        while(!isModuleInit)
+        {
+            isModuleInit = true;
+            for(int i=0;i<modules.GetLength(0);i++)
+            {
+                for (int j = 0; j < modules.GetLength(1); j++)
+                {
+                    if (!modules[i,j].isInit)
+                    {
+                        isModuleInit = false;
+                        break;
+                    }
+                }
+            }
+            yield return null;
+        }
+        ShowGame();
+
+        for (int i = 0; i < signal_gen.Count; i++)
         {
             signal_gen[i].OutputState();
         }
@@ -183,15 +214,70 @@ public class MapControl : MonoBehaviour
     }
 
     //添加游戏结束相应函数
-    public void AddGameOverCallBack(GameOverCallBack callBack)
+    public void SetGameOverCallBack(GameOverCallBack callBack)
     {
+        //清空原有函数列表
+        if (game_over != null)
+        {
+            Delegate[] delegates = game_over.GetInvocationList();
+            foreach (Delegate d in delegates)
+            {
+                game_over -= (GameOverCallBack)d;
+            }
+        }
         game_over += callBack;
     }
-
-    //删除游戏结束相应函数
-    public void DeleteGameOverCallBack(GameOverCallBack callBack)
+    
+    //开始关卡
+    public bool StartLevel(string level_name, GameOverCallBack callBack = null)
     {
-        game_over -= callBack;
+        ShowGame();
+        bool succeed = ChangeLevel(level_name, callBack);
+        GameStart();
+        return succeed;
+    }
+
+    //切换关卡
+    public bool ChangeLevel(string level_name, GameOverCallBack callBack = null)
+    {
+        string level_path = "Level/" + level_name;
+        GameObject level_prefab = Resources.Load<GameObject>(level_path);
+        if (level_prefab != null && callBack != null)
+        {
+            SetGameOverCallBack(callBack);
+
+            GameObject next_level = Instantiate(level_prefab);
+            GameObject current_level = map_panel;
+
+            next_level.transform.parent = back_area;
+            next_level.transform.position = current_level.transform.position;
+            next_level.transform.localScale = current_level.transform.localScale;
+            next_level.transform.rotation = current_level.transform.rotation;
+            next_level.GetComponent<RectTransform>().sizeDelta = current_level.GetComponent<RectTransform>().sizeDelta;
+            next_level.transform.SetSiblingIndex(0);
+
+            Destroy(current_level);
+
+            map_panel = next_level;
+            GameInit();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    //显示游戏画面
+    public void ShowGame()
+    {
+        back_area.gameObject.SetActive(true);
+    }
+
+    //隐藏游戏画面
+    public void HideGame()
+    {
+        back_area.gameObject.SetActive(false);
     }
     #endregion
 
@@ -208,7 +294,22 @@ public class MapControl : MonoBehaviour
             }
         }
 
-        if(Input.GetKeyDown(KeyCode.Escape))
+        //if(Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    HideGame();
+        //}
+        //else if (Input.GetKeyDown(KeyCode.Alpha2))
+        //{
+        //    ShowGame();
+        //}
+        //else if (Input.GetKeyDown(KeyCode.Alpha3))
+        //{
+        //    HideGame();
+        //    StartLevel("TestLevel1",Over2);
+
+        //}
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
             ChangeMouseStateToEmpty();
         }
@@ -227,25 +328,6 @@ public class MapControl : MonoBehaviour
                 direct %= 4;
             }
         }
-    }
-
-    public void ChangeLevel(string level_name)
-    {
-        string level_path = level_name;
-        GameObject next_level=Resources.Load<GameObject>(level_path);
-        GameObject current_level = transform.GetChild(0).GetChild(0).gameObject;
-
-        next_level.transform.parent = back_area;
-        next_level.transform.position = current_level.transform.position;
-        next_level.GetComponent<RectTransform>().sizeDelta = current_level.GetComponent<RectTransform>().sizeDelta;
-        next_level.transform.SetSiblingIndex(0);
-
-        GameInit();
-    }
-
-    public void HideGame()
-    {
-        back_area.gameObject.SetActive(false);
     }
 
     public void HideDragItem()
