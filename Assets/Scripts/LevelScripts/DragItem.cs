@@ -10,12 +10,15 @@ public class DragItem : MonoBehaviour,IPointerClickHandler
     public DragType type;
     
     private Sprite sprite;
+    private Text gold_text;
     private MapControl map;
     // Start is called before the first frame update
     void Start()
     {
         map = MapControl.getInstance();
         sprite = transform.GetChild(0).GetComponent<Image>().sprite;
+        GetComponentInChildren<Text>().text=map.GetModuleCost(type).ToString();
+        
     }
 
     // Update is called once per frame
@@ -26,6 +29,7 @@ public class DragItem : MonoBehaviour,IPointerClickHandler
     
     void IPointerClickHandler.OnPointerClick(PointerEventData eventData)
     {
+        
         if(eventData.button==PointerEventData.InputButton.Left)
         {
             int gold = map.GetModuleCost(type);

@@ -367,12 +367,13 @@ public class MapControl : MonoBehaviour
     #region 金币控制函数
     private void SetGold(int gold)
     {
-        gold_panel.GetComponentInChildren<Text>().text = gold.ToString();
+        gold_panel.GetComponentInChildren<Text>().text = "x"+gold.ToString();
     }
 
     private int GetGold()
     {
-        return Convert.ToInt32(gold_panel.GetComponentInChildren<Text>().text);
+        string gold_text = gold_panel.GetComponentInChildren<Text>().text;
+        return Convert.ToInt32(gold_text.Replace("x",""));
     }
 
     public int GetModuleCost(DragType type)
