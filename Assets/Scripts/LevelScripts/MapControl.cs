@@ -286,6 +286,13 @@ public class MapControl : MonoBehaviour
 
     private void Update()
     {
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log(1);
+            //MapControl map=MapControl.getInstance();
+           StartLevel("TestLevel1", Over);
+            //map.HideGame();
+        }
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log(mouse_state);
