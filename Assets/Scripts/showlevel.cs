@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class showlevel : MonoBehaviour
 {
-    public GameObject panel;
+    public string levelname;
     public GameObject door;
     // Start is called before the first frame update
     void Start()
@@ -22,7 +22,8 @@ public class showlevel : MonoBehaviour
     {
         if (door.GetComponent<Doorcontrol>().isdooropen == false)
         {
-            GameObject.Find("Robin").GetComponent<CharacterControl>().Openlevel = panel;
+            GameObject.Find("Robin").GetComponent<CharacterControl>().Openlevel = levelname;
+            GameObject.Find("Robin").GetComponent<CharacterControl>().opendoor = door;
         }
     }
     private void OnTriggerExit(Collider other)

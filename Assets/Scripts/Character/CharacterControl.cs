@@ -5,7 +5,8 @@ using UnityEngine;
 public class CharacterControl : MonoBehaviour
 {
     private Animator _animator;
-    public GameObject Openlevel;
+    public string Openlevel;
+    public GameObject opendoor;
 
     // Start is called before the first frame update
     void Start()
@@ -38,7 +39,10 @@ public class CharacterControl : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.F))
         {
-            Openlevel.SetActive(true);
+            if(Openlevel != null)
+            {
+                MapControl.getInstance().StartLevel("TestLevel1", Over);
+            }
         }
         else 
         {
@@ -53,5 +57,13 @@ public class CharacterControl : MonoBehaviour
       
         
 ;
+    }
+
+    public void Over()
+    {
+        Debug.Log("over");
+        MapControl.getInstance().HideGame();
+        opendoor.GetComponent<Doorcontrol>().isdooropen = true;
+        Openlevel = null;
     }
 }
