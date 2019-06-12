@@ -46,6 +46,11 @@ public class ColorStream
         return !(a == b);
     }
 
+    public void print()
+    {
+        Debug.Log(isValid + ":" + isPolluted + ":" + r + ":" + g + ":" + b);
+    }
+
     public bool isValid;
     public bool isPolluted;
     public bool r,g,b;
@@ -75,8 +80,40 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 {
     //格子的一些常用参数
     public bool isPolluted;
-    
     public int direct;
+    public int gold
+    {
+        get
+        {
+            switch (current_type)
+            {
+                case ModuleType.TPipe:
+                    {
+                        return 700;
+                    }
+                case ModuleType.XPipe:
+                    {
+                        return 1000;
+                    }
+                case ModuleType.SPipe:
+                case ModuleType.NotGate:
+                case ModuleType.AndGate:
+                case ModuleType.OrGate:
+                    {
+                        return 500;
+                    }
+                case ModuleType.Plat:
+                case ModuleType.CleanMachine:
+                    {
+                        return 1500;
+                    }
+                default:
+                    {
+                        return 0;
+                    }
+            }
+        }
+    }
 
     //格子的坐标
     private int index_x, index_y;
@@ -230,34 +267,35 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 
     private void Start()
     {
+        ModuleInit();
+    }
 
-        for(int i=0;i<allInputs.Length;i++)
+    public void ModuleInit()
+    {
+        //初始化out_state
+        for (int i = 0; i < allInputs.Length; i++)
         {
             allInputs[i] = new ColorStream();
         }
 
+        //初始化module状态
         all_types = new Stack<ModuleType>();
         all_types.Push(init_type);
-
+        
+        //获取地图对象
         map = MapControl.getInstance();
 
+        //初始化index_x,index_y
         int sibling_index = transform.GetSiblingIndex();
         index_x = sibling_index / map.n;
         index_y = sibling_index % map.n;
-        if(current_type==ModuleType.SignalGen)
+        if (current_type == ModuleType.SignalGen)
         {
             allInputs[0] = gen_color;
-            OutputState();
-        }
-
-        if (current_type == ModuleType.SignalRev)
-        {
-            Debug.Log(rev_color.real_color);
-            Debug.Log(direct);
-            FillPipe();
         }
     }
 
+    #region module状态传播
     public void InputState(int direct,ColorStream color)
     {
         direct %= 4;
@@ -313,7 +351,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         
     }
 
-    public virtual void OutputState()
+    public void OutputState()
     {
         if (out_state.isValid)
         {
@@ -392,14 +430,233 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         }
     }
 
-    public virtual void InitState()
+    //传播到周围模块
+    private void Spread()
     {
-        for(int i=0;i<4;i++)
+        switch (current_type)
         {
-            allInputs[i] = new ColorStream();
+            case ModuleType.SignalGen:
+            case ModuleType.BridgeOut:
+            case ModuleType.SPipe:
+            case ModuleType.NotGate:
+            case ModuleType.AndGate:
+            case ModuleType.OrGate:
+            case ModuleType.CleanMachine:
+                {
+                    BaseModule next = GetNextModule((direct + 2) % 4);
+                    if (next != null)
+                    {
+                        next.InputState(direct, out_state);
+                    }
+                    break;
+                }
+            case ModuleType.TPipe:
+                {
+                    BaseModule next_a = GetNextModule((direct + 1) % 4);
+                    if (next_a != null)
+                    {
+                        next_a.InputState((direct + 3) % 4, out_state);
+                    }
+                    BaseModule next_b = GetNextModule((direct + 3) % 4);
+                    if (next_b != null)
+                    {
+                        next_b.InputState((direct + 1) % 4, out_state);
+                    }
+                    break;
+                }
+            case ModuleType.XPipe:
+                {
+                    for (int i = 1; i < 4; i++)
+                    {
+                        BaseModule next = GetNextModule((direct + i) % 4);
+                        if (next != null)
+                        {
+                            next.InputState((direct + i + 2) % 4, out_state);
+                        }
+                    }
+                    break;
+                }
+            case ModuleType.BridgeIn:
+                {
+                    bridge_out.InputState(4, out_state);
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
         }
     }
 
+    //填充颜色
+    public void FillPipe()
+    {
+        if (current_type == ModuleType.SignalRev)
+        {
+            Color[] colors = new Color[4];
+            for (int i = 0; i < colors.Length; i++)
+            {
+                colors[i] = rev_color.real_color;
+            }
+            pipe_control.FillPipe(colors);
+        }
+
+        pipe_control.CleanPipe();
+        if (out_state.isValid)
+        {
+            switch (current_type)
+            {
+                case ModuleType.SignalGen:
+                case ModuleType.BridgeOut:
+                case ModuleType.SPipe:
+                case ModuleType.TPipe:
+                case ModuleType.XPipe:
+                case ModuleType.BridgeIn:
+                    {
+                        Color[] colors = new Color[4];
+                        for (int i = 0; i < colors.Length; i++)
+                        {
+                            colors[i] = out_state.real_color;
+                        }
+                        pipe_control.FillPipe(colors);
+                        break;
+                    }
+
+                case ModuleType.AndGate:
+                case ModuleType.OrGate:
+                    {
+                        Color[] colors = new Color[3];
+                        colors[0] = allInputs[direct].real_color;
+                        colors[1] = allInputs[(direct + 3) % 4].real_color;
+                        colors[2] = out_state.real_color;
+                        pipe_control.FillPipe(colors);
+                        break;
+                    }
+                case ModuleType.NotGate:
+                case ModuleType.CleanMachine:
+                    {
+                        Color[] colors = new Color[2];
+                        colors[0] = allInputs[direct].real_color;
+                        colors[1] = out_state.real_color;
+                        pipe_control.FillPipe(colors);
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
+    }
+    #endregion
+
+    #region Module操作函数
+    private void AddModule(ModuleType module_type)
+    {
+        map.isUsed = true;
+        all_types.Push(module_type);
+        SetModule(module_type, map.direct);
+        UpdateModule();
+
+    }
+
+    private void SoldModule()
+    {
+        map.gold += gold;
+        switch (current_type)
+        {
+            case ModuleType.Plat:
+            case ModuleType.SPipe:
+            case ModuleType.TPipe:
+            case ModuleType.XPipe:
+            case ModuleType.NotGate:
+            case ModuleType.AndGate:
+            case ModuleType.OrGate:
+            case ModuleType.CleanMachine:
+                {
+                    all_types.Pop();
+                    SetModule(current_type, 0);
+                    UpdateModule();
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+        }
+    }
+
+    public void ResetModule()
+    {
+        //没有改变过状态
+        if (all_types.Count == 1)
+        {
+            return;
+        }
+        while (all_types.Count > 0)
+        {
+            all_types.Pop();
+        }
+        AddModule(init_type);
+    }
+
+    public void SetModule(ModuleType type, int direct)
+    {
+        //删除原有module对象,从对象池中获得组件预设，并进行更换
+        Destroy(transform.GetChild(0).gameObject);
+        Transform module = MapControl.getInstance().pool.Spawn(type + "Module", transform);
+
+        //改变组件预设的位置、大小、角度
+        module.GetComponent<RectTransform>().localPosition = Vector3.zero;
+        Vector2 rect_size = transform.GetComponent<RectTransform>().sizeDelta;
+        module.GetComponent<RectTransform>().sizeDelta = new Vector2(-2, -2);
+        module.rotation = map.drag_item.rotation;
+
+        this.direct = direct;
+
+        map.ChangeMouseStateToEmpty();
+    }
+
+    public void UpdateModule()
+    {
+        switch (current_type)
+        {
+            case ModuleType.TPipe:
+            case ModuleType.SPipe:
+            case ModuleType.XPipe:
+            case ModuleType.OrGate:
+            case ModuleType.CleanMachine:
+                {
+                    BaseModule next = GetNextModule(direct);
+                    if (next != null)
+                    {
+                        next.OutputState((direct + 2) % 4);
+                    }
+                    break;
+                }
+            case ModuleType.NotGate:
+            case ModuleType.AndGate:
+                {
+                    BaseModule next_a = GetNextModule(direct);
+                    if (next_a != null)
+                    {
+                        next_a.OutputState((direct + 2) % 4);
+                    }
+                    BaseModule next_b = GetNextModule((direct + 3) % 4);
+                    if (next_b != null)
+                    {
+                        next_b.OutputState((direct + 1) % 4);
+                    }
+                    break;
+                }
+            case ModuleType.Plat:
+            default:
+                break;
+        }
+    }
+    #endregion
+
+    #region 获取临近module
     public bool IsNextValid(int direct)
     {
         int next_x = index_x + d[direct, 0];
@@ -427,60 +684,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
             return null;
         }
     }
-
-    public void SetModule(ModuleType type,int direct)
-    {
-        //删除原有module对象,从对象池中获得组件预设，并进行更换
-        Destroy(transform.GetChild(0).gameObject);
-        Debug.Log(type + "Module");
-        Transform module = MapControl.getInstance().pool.Spawn(type + "Module", transform);
-        
-        //改变组件预设的位置、大小、角度
-        module.GetComponent<RectTransform>().localPosition = Vector3.zero;
-        Vector2 rect_size = transform.GetComponent<RectTransform>().sizeDelta;
-        module.GetComponent<RectTransform>().sizeDelta = new Vector2(- 2, - 2);
-        module.rotation = map.drag_item.rotation;
-        
-        this.direct = direct;
-    }
-
-    public void UpdateModule()
-    {
-        switch (current_type)
-        {
-            case ModuleType.TPipe:
-            case ModuleType.SPipe:
-            case ModuleType.XPipe:
-            case ModuleType.OrGate:
-            case ModuleType.CleanMachine:
-                {
-                    BaseModule next = GetNextModule(direct);
-                    if (next != null)
-                    {
-                        next.OutputState((direct+2)%4);
-                    }
-                    break;
-                }
-            case ModuleType.NotGate:
-            case ModuleType.AndGate:
-                {
-                    BaseModule next_a = GetNextModule(direct);
-                    if (next_a != null)
-                    {
-                        next_a.OutputState((direct + 2) % 4);
-                    }
-                    BaseModule next_b = GetNextModule((direct + 3) % 4);
-                    if (next_b != null)
-                    {
-                        next_b.OutputState((direct + 1) % 4);
-                    }
-                    break;
-                }
-            case ModuleType.Plat:
-            default:
-                break;
-        }
-    }
+    #endregion
 
     #region 鼠标事件响应
     public void OnPointerEnter(PointerEventData eventData)
@@ -566,169 +770,5 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         state.SetStateDefault();
     }
     #endregion
-
-    public void FillPipe()
-    {
-        if (current_type == ModuleType.SignalRev)
-        {
-            Color[] colors = new Color[4];
-            for (int i = 0; i < colors.Length; i++)
-            {
-                colors[i] = rev_color.real_color;
-            }
-            pipe_control.FillPipe(colors);
-        }
-
-        pipe_control.CleanPipe();
-        if (out_state.isValid)
-        {
-            switch (current_type)
-            {
-                case ModuleType.SignalGen:
-                case ModuleType.BridgeOut:
-                case ModuleType.SPipe:
-                case ModuleType.TPipe:
-                case ModuleType.XPipe:
-                case ModuleType.BridgeIn:
-                    {
-                        Color[] colors = new Color[4];
-                        for (int i = 0; i < colors.Length; i++)
-                        {
-                            colors[i] = out_state.real_color;
-                        }
-                        pipe_control.FillPipe(colors);
-                        break;
-                    }
-
-                case ModuleType.AndGate:
-                case ModuleType.OrGate:
-                    {
-                        Color[] colors = new Color[3];
-                        colors[0] = allInputs[direct].real_color;
-                        colors[1] = allInputs[(direct + 3) % 4].real_color;
-                        colors[2] = out_state.real_color;
-                        pipe_control.FillPipe(colors);
-                        break;
-                    }
-                case ModuleType.NotGate:
-                case ModuleType.CleanMachine:
-                    {
-                        Color[] colors = new Color[2];
-                        colors[0] = allInputs[direct].real_color;
-                        colors[1] = out_state.real_color;
-                        pipe_control.FillPipe(colors);
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
-        }
-    }
-
-    private void Spread()
-    {
-        switch (current_type)
-        {
-            case ModuleType.SignalGen:
-            case ModuleType.BridgeOut:
-            case ModuleType.SPipe:
-            case ModuleType.NotGate:
-            case ModuleType.AndGate:
-            case ModuleType.OrGate:
-            case ModuleType.CleanMachine:
-                {
-                    BaseModule next = GetNextModule((direct + 2) % 4);
-                    if (next != null)
-                    {
-                        next.InputState(direct, out_state);
-                    }
-                    break;
-                }
-            case ModuleType.TPipe:
-                {
-                    BaseModule next_a = GetNextModule((direct + 1) % 4);
-                    if (next_a != null)
-                    {
-                        next_a.InputState((direct + 3) % 4, out_state);
-                    }
-                    BaseModule next_b = GetNextModule((direct + 3) % 4);
-                    if (next_b != null)
-                    {
-                        next_b.InputState((direct + 1) % 4, out_state);
-                    }
-                    break;
-                }
-            case ModuleType.XPipe:
-                {
-                    for (int i = 1; i < 4; i++)
-                    {
-                        BaseModule next = GetNextModule((direct + i) % 4);
-                        if (next != null)
-                        {
-                            next.InputState((direct + i + 2) % 4, out_state);
-                        }
-                    }
-                    break;
-                }
-            case ModuleType.BridgeIn:
-                {
-                    bridge_out.InputState(4, out_state);
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
-    }
-
-    private void AddModule(ModuleType module_type)
-    {
-        all_types.Push(module_type);
-        SetModule(module_type, map.direct);
-        UpdateModule();
-
-    }
-
-    private void SoldModule()
-    {
-        switch (current_type)
-        {
-            case ModuleType.Plat:
-            case ModuleType.SPipe:
-            case ModuleType.TPipe:
-            case ModuleType.XPipe:
-            case ModuleType.NotGate:
-            case ModuleType.AndGate:
-            case ModuleType.OrGate:
-            case ModuleType.CleanMachine:
-                {
-                    Debug.Log(1);
-                    all_types.Pop();
-                    SetModule(current_type, 0);
-                    UpdateModule();
-                    break;
-                }
-            default:
-                {
-                    break;
-                }
-        }
-    }
-
-    public void ResetModule()
-    {
-        //没有改变过状态
-        if(all_types.Count==1)
-        {
-            return;
-        }
-        while(all_types.Count>0)
-        {
-            all_types.Pop();
-        }
-        AddModule(init_type);
-    }
+    
 }

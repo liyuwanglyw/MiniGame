@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using PathologicalGames;
 using UnityEngine.UI;
+using System;
 public enum DragType
 {
     Empty,
@@ -18,57 +19,100 @@ public enum DragType
 }
 public class MapControl : MonoBehaviour
 {
-    public Transform drag_item;
+    public Transform drag_item;     //拖拽时显示的图片
+    public GameObject map_panel;    //地图Panel对象
+    public GameObject drag_panel;   //拖拽Panel对象
+    public GameObject gold_panel;   //金币Panel对象
+    public Texture2D sold_cursor;   //出售物品时鼠标指针
+    
+    private Transform back_area
+    {
+        get
+        {
+            return transform.GetChild(0);
+        }
+    }
+
+    public int init_gold;   //初始化金币
+    public delegate void GameOverCallBack();
+    private GameOverCallBack game_over;//游戏结束的回调函数
+
+    public int gold
+    {
+        set
+        {
+            SetGold(value);
+        }
+        get
+        {
+            return GetGold();
+        }
+    }
+
     [HideInInspector]
-    public int direct;
-
-    //public SpawnPool pool;
-    public GameObject map_panel;
-    public GameObject drag_panel;
-
-    public Texture2D sold_cursor;
-
+    public BaseModule[,] modules;//存放所有BaseModule对象
     [HideInInspector]
-    public BaseModule[,] modules;
-    [HideInInspector]
-    public int m,n;
-    private List<BaseModule> signal_gen;
-    private List<BaseModule> signal_rev;
+    public int m,n;//地图规格 m*n
+    private List<BaseModule> signal_gen;//存放所有发射点
+    private List<BaseModule> signal_rev;//存放所有接收点
 
+    //鼠标拖拽物体的状态
     [HideInInspector]
     public DragType mouse_state=DragType.Empty;
-    
-    public static MapControl instance;
+    [HideInInspector]
+    public int direct;//拖拽时物体的方向
+    [HideInInspector]
+    public bool isUsed=true;
 
     [HideInInspector]
-    public SpawnPool pool;
+    public SpawnPool pool;//对象池
+
+    public static MapControl instance;
 
     private void Awake()
     {
         instance = this;
         GameInit();
-        pool = GameObject.Find("Managers").GetComponent<SpawnPool>();
+        Invoke("TestStart", 1f);
     }
-
+    
     public static MapControl getInstance()
     {
         return instance;
     }
-    
+    public void TestStart()
+    {
+        GameStart();
+        AddGameOverCallBack(Over);
+    }
 
+    public void Over()
+    {
+        Debug.Log("over");
+    }
+
+    #region 游戏流程控制
+    //游戏进程初始化
     public void GameInit()
     {
+        //初始化 发射点 和 接收点 List
         signal_gen = new List<BaseModule>();
         signal_rev = new List<BaseModule>();
 
+        //初始化m，n的值
         Vector2 rect_size = map_panel.GetComponent<RectTransform>().rect.size;
         Vector2 cell_size = map_panel.GetComponent<GridLayoutGroup>().cellSize;
         n = (int)(rect_size.x / cell_size.x);
         m = map_panel.transform.childCount / n;
 
+        //获取对象池
+        pool = GameObject.Find("Managers").GetComponent<SpawnPool>();
+
+        //初始化拖拽时候图片的大小
         Debug.Log(m + ","+n);
         drag_item.GetComponent<RectTransform>().sizeDelta = cell_size;
 
+        //初始化Module数组
         modules = new BaseModule[m, n];
         BaseModule[] mod = map_panel.GetComponentsInChildren<BaseModule>();
         Debug.Log(mod.Length);
@@ -88,22 +132,26 @@ public class MapControl : MonoBehaviour
                 }
             }
         }
-    }
 
+        //初始化金币
+        gold = init_gold;
+    }
+    
+    //开始游戏
     public void GameStart()
     {
         for(int i=0;i<signal_gen.Count;i++)
         {
             signal_gen[i].OutputState();
         }
+        for (int i = 0; i < signal_gen.Count; i++)
+        {
+            signal_rev[i].FillPipe();
+        }
         StartCoroutine(CheckGameOver());
     }
-
-    public void GameOver()
-    {
-        Debug.Log("GameOver");
-    }
-
+    
+    //检查游戏是否完成
     public IEnumerator CheckGameOver()
     {
         bool isGameOver = false;
@@ -119,46 +167,85 @@ public class MapControl : MonoBehaviour
             }
             yield return new WaitForSeconds(0.5f);
         }
-        GameOver();
+        game_over();
     }
+    
+    //重置关卡
+    public void ResetLevel()
+    {
+        for (int i = 0; i < modules.GetLength(0); i++)
+        {
+            for (int j = 0; j < modules.GetLength(1); j++)
+            {
+                modules[i, j].ResetModule();
+            }
+        }
+    }
+
+    //添加游戏结束相应函数
+    public void AddGameOverCallBack(GameOverCallBack callBack)
+    {
+        game_over += callBack;
+    }
+
+    //删除游戏结束相应函数
+    public void DeleteGameOverCallBack(GameOverCallBack callBack)
+    {
+        game_over -= callBack;
+    }
+    #endregion
 
     private void Update()
     {
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log(mouse_state);
+            Debug.Log(gold);
+            for (int i = 0; i < signal_rev.Count; i++)
+            {
+                signal_rev[i].rev_color.print();
+                signal_rev[i].out_state.print();
+            }
         }
 
         if(Input.GetKeyDown(KeyCode.Escape))
         {
             ChangeMouseStateToEmpty();
         }
-
-        if (mouse_state == DragType.Sold)
-        {
-            if (Input.GetMouseButtonDown(1))
-            {
-                ChangeMouseStateToEmpty();
-            }
-        }
-        else if(mouse_state!=DragType.Empty)
+        
+        if(mouse_state!=DragType.Empty&&mouse_state!=DragType.Sold)
         {
             if (drag_item != null && drag_item.gameObject.activeSelf)
             {
                 drag_item.position = Input.mousePosition;
             }
 
-            if (Input.GetMouseButtonDown(0))
-            {
-                ChangeMouseStateToEmpty();
-            }
-            else if (Input.GetMouseButtonDown(1))
+            if (Input.GetMouseButtonDown(1))
             {
                 drag_item.Rotate(0, 0, 90);
                 direct += 1;
                 direct %= 4;
             }
         }
+    }
+
+    public void ChangeLevel(string level_name)
+    {
+        string level_path = level_name;
+        GameObject next_level=Resources.Load<GameObject>(level_path);
+        GameObject current_level = transform.GetChild(0).GetChild(0).gameObject;
+
+        next_level.transform.parent = back_area;
+        next_level.transform.position = current_level.transform.position;
+        next_level.GetComponent<RectTransform>().sizeDelta = current_level.GetComponent<RectTransform>().sizeDelta;
+        next_level.transform.SetSiblingIndex(0);
+
+        GameInit();
+    }
+
+    public void HideGame()
+    {
+        back_area.gameObject.SetActive(false);
     }
 
     public void HideDragItem()
@@ -168,7 +255,7 @@ public class MapControl : MonoBehaviour
         direct = 0;
     }
 
-
+    #region 鼠标状态转换函数
     public void ChangeMouseStateToSold()
     {
         ChangeMouseState(DragType.Sold);
@@ -176,6 +263,10 @@ public class MapControl : MonoBehaviour
 
     public void ChangeMouseStateToEmpty()
     {
+        if (!isUsed)
+        {
+            gold += GetModuleCost(mouse_state);
+        }
         ChangeMouseState(DragType.Empty);
 
     }
@@ -193,17 +284,49 @@ public class MapControl : MonoBehaviour
             mouse_state = type;
         }
     }
-
-    public void ResetLevel()
+    #endregion
+    
+    #region 金币控制函数
+    private void SetGold(int gold)
     {
-        for(int i=0;i<modules.GetLength(0);i++)
+        gold_panel.GetComponentInChildren<Text>().text = gold.ToString();
+    }
+
+    private int GetGold()
+    {
+        return Convert.ToInt32(gold_panel.GetComponentInChildren<Text>().text);
+    }
+
+    public int GetModuleCost(DragType type)
+    {
+        switch (type)
         {
-            for(int j=0;j<modules.GetLength(1);j++)
-            {
-                modules[i, j].ResetModule();
-            }
+            case DragType.TPipe:
+                {
+                    return 700;
+                }
+            case DragType.XPipe:
+                {
+                    return 1000;
+                }
+            case DragType.SPipe:
+            case DragType.NotGate:
+            case DragType.AndGate:
+            case DragType.OrGate:
+                {
+                    return 500;
+                }
+            case DragType.Plat:
+            case DragType.Clean:
+                {
+                    return 1500;
+                }
+            default:
+                {
+                    return 0;
+                }
         }
     }
-    
+    #endregion
 
 }
