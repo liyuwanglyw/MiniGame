@@ -21,8 +21,7 @@ public class DragItem : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,
         map = MapControl.getInstance();
         sprite = transform.GetChild(0).GetComponent<Image>().sprite;
         GetComponentInChildren<Text>().text=map.GetModuleCost(type).ToString();
-
-       
+        
     }
 
     // Update is called once per frame
@@ -52,13 +51,6 @@ public class DragItem : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData)
     {
-        if (type == DragType.TPipe)
-        {
-            Vector3 world_point;
-            RectTransformUtility.ScreenPointToWorldPointInRectangle(
-                MapControl.getInstance().GetComponent<RectTransform>(), transform.position, Camera.main, out world_point);
-            Debug.Log(world_point);
-        }
         isMouseStay = true;
         enter_time = Time.time;
         StartCoroutine(CheckMouseStay());
@@ -72,17 +64,13 @@ public class DragItem : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,
 
     private IEnumerator CheckMouseStay()
     {
-        Vector3 world_point;
-        RectTransformUtility.ScreenPointToWorldPointInRectangle(
-            MapControl.getInstance().GetComponent<RectTransform>(), transform.position, Camera.main, out world_point);
-
-        while (isMouseStay)
+        while(isMouseStay)
         {
             if(Time.time-enter_time>0.5f)
             {
                 ModuleNote.instance.gameObject.SetActive(true);
                 ModuleNote.instance.SetNote(note);
-                ModuleNote.instance.SetPosition(world_point);
+                ModuleNote.instance.SetPosition(transform.position);
             }
             yield return null;
         }
