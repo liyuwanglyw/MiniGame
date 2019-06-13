@@ -149,15 +149,22 @@ public class MapControl : MonoBehaviour
         {
             for (int j = 0; j < n; j++)
             {
-                BaseModule temp = mod[i * n + j];
-                modules[i, j] = temp;
-                if (temp.init_type==BaseModule.ModuleType.SignalGen)
+                if (i * n + j < mod.Length)
                 {
-                    signal_gen.Add(temp);
+                    BaseModule temp = mod[i * n + j];
+                    modules[i, j] = temp;
+                    if (temp.init_type == BaseModule.ModuleType.SignalGen)
+                    {
+                        signal_gen.Add(temp);
+                    }
+                    if (temp.init_type == BaseModule.ModuleType.SignalRev)
+                    {
+                        signal_rev.Add(temp);
+                    }
                 }
-                if (temp.init_type == BaseModule.ModuleType.SignalRev)
+                else
                 {
-                    signal_rev.Add(temp);
+                    break;
                 }
             }
         }
