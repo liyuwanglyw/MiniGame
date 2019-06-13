@@ -321,14 +321,23 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
     #region module状态传播
     public void InputState(int direct,ColorStream color)
     {
-        direct %= 4;
+        if(current_type==ModuleType.BridgeOut)
+        {
+            Debug.Log("Input bridgeout");
+            Debug.Log(direct);
+        }
+        if (direct >=0)
+        {
+            direct %= 4;
+        }
         switch(current_type)
         {
             case ModuleType.SignalGen:
             case ModuleType.BridgeOut:
                 {
-                    if (direct == 4)
+                    if (direct == -1)
                     {
+                        Debug.Log(1);
                         allInputs[0] = new ColorStream(color);
                         OutputState();
                     }
@@ -376,6 +385,10 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 
     public void OutputState()
     {
+        if(current_type==ModuleType.BridgeOut)
+        {
+            Debug.Log("bridge out");
+        }
         FillPipe();
         float spread_time = 0.5f;
         if(pipe_control!=null)
@@ -442,7 +455,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                 }
             case ModuleType.BridgeIn:
                 {
-                    bridge_out.InputState(4, out_state);
+                    bridge_out.InputState(-1, out_state);
                     break;
                 }
             default:
@@ -501,7 +514,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                 }
             case ModuleType.BridgeIn:
                 {
-                    bridge_out.InputState(4, out_state);
+                    bridge_out.InputState(-1, out_state);
                     break;
                 }
             default:

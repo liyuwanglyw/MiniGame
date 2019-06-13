@@ -90,6 +90,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 6
+  note: "\u6216\u95E8\uFF1A\u6216\u95E8\u53EF\u4EE5\u5C06\u8F93\u5165\u7684\u4FE1\u53F7\u505A\"\u6216\"\u64CD\u4F5C(\u53D6\u5E76\u96C6)\u540E\u8F93\u51FA\uFF0C\u5982\u7EA2\u8272\u548C\u84DD\u8272\u4FE1\u53F7\u8F93\u5165\u4F1A\u8F93\u51FA\u7D2B\u8272"
 --- !u!1 &6404922526740223700
 GameObject:
   m_ObjectHideFlags: 0
@@ -168,7 +169,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: "\u6216\u95E8\uFF1A\u6216\u95E8\u53EF\u4EE5\u5C06\u8F93\u5165\u7684\u4FE1\u53F7\u505A\"\u6216\"\u64CD\u4F5C(\u53D6\u5E76\u96C6)\u540E\u8F93\u51FA\uFF0C\u5982\u7EA2\u8272\u548C\u84DD\u8272\u4FE1\u53F7\u8F93\u5165\u4F1A\u8F93\u51FA\u7D2B\u8272"
 --- !u!1 &6404922526760790790
 GameObject:
   m_ObjectHideFlags: 0
