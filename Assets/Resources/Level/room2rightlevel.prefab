@@ -220,18 +220,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 10
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 10
+    m_MinSize: 1
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: hrgxdhfdexgsdzfdgbzdbfdnzdgbdsfvzgfbdgzdfgdbdfzg
+  m_Text: "            \u5907\u5FD8\u5F55\n\n1.\u53D1\u5C04\u5668\u548C\u63A5\u6536\u5668\u4FE1\u53F7\u989C\u8272\u4E0D\u540C\uFF0C\u4E0D\u80FD\u76F4\u63A5\u7528\u4FE1\u53F7\u7BA1\u8FDE\u63A5\uFF0C\u9700\u8981\u7528\u7EC4\u4EF6\u505A\u989C\u8272\u53D8\u6362\uFF1B\n2.\u6216\u95E8\u6709\u4E24\u4E2A\u8F93\u5165\u7AEF\uFF0C\u53EF\u4EE5\u5C06\u8F93\u5165\u7684\u4E24\u4E2A\u4FE1\u53F7\u505A\u4E00\u4E2A\u201C\u6216\"\u64CD\u4F5C\u540E\u8F93\u51FA(\u53D6\u5E76\u96C6)\u3002\n3.\u5982\u679C\u4E0D\u77E5\u9053\u989C\u8272\u5982\u4F55\u7EC4\u5408\uFF0C\u53F3\u4E0A\u89D2\u7684\u6BD4\u8272\u5361\u4E5F\u8BB8\u80FD\u63D0\u4F9B\u5E2E\u52A9\u3002\n4.\u5927\u80C6\u5C1D\u8BD5\uFF0C\u5373\u4F7F\u642D\u9519\u4E86\uFF0C\u62C6\u9664\u7EC4\u4EF6\u4E5F\u4F1A\u8FD4\u8FD8\u6240\u6709\u96F6\u4EF6\u3002"
 --- !u!1 &7714926823565607143
 GameObject:
   m_ObjectHideFlags: 0
