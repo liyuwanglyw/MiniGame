@@ -7,7 +7,7 @@ public class CharacterControl : MonoBehaviour
     private Animator _animator;
     public string Openlevel;
     public GameObject opendoor;
-
+    public bool _movementAllowed = true;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,37 +17,43 @@ public class CharacterControl : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-       if(Input .GetKey  (KeyCode.A))
-        {
-            this.GetComponent<Transform>().localRotation = Quaternion .Euler (0,-90,0);
-            _animator.SetBool("Walk", true);
-        }
-       else if(Input.GetKey(KeyCode.D))
-        {
-            this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 90, 0);
-            _animator.SetBool("Walk", true);
-        }
-        else if (Input.GetKey(KeyCode.W))
-        {
-            this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 0, 0);
-            _animator.SetBool("Walk", true);
-        }
-        else if (Input.GetKey(KeyCode.S))
-        {
-            this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 180, 0);
-            _animator.SetBool("Walk", true);
-        }
-        else if (Input.GetKey(KeyCode.F))
-        {
-            if (!Openlevel.Equals(""))
+        if (!_movementAllowed)
+            return;
+
+
+
+        if (Input.GetKey(KeyCode.A))
             {
-                MapControl.getInstance().StartLevel(Openlevel, Over);
+                this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, -90, 0);
+                _animator.SetBool("Walk", true);
             }
-        }
-        else 
-        {
-            _animator.SetBool("Walk", false );
-        }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 90, 0);
+                _animator.SetBool("Walk", true);
+            }
+            else if (Input.GetKey(KeyCode.W))
+            {
+                this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 0, 0);
+                _animator.SetBool("Walk", true);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 180, 0);
+                _animator.SetBool("Walk", true);
+            }
+            else if (Input.GetKey(KeyCode.F))
+            {
+                if (!Openlevel.Equals(""))
+                {
+                    MapControl.getInstance().StartLevel(Openlevel, Over);
+                }
+            }
+            else
+            {
+                _animator.SetBool("Walk", false);
+            }
+       
        
     }
     

@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
-{
+
     public class transferbox : MonoBehaviour
     {
         public GameObject disablecamera;
         public GameObject enablecamera;
         public GameObject dest;
+        public GameObject robin;
         // Start is called before the first frame update
         void Start()
         {
-
+        robin = GameObject.Find("Robin");
         }
 
         // Update is called once per frame
@@ -23,23 +23,22 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
         private void OnTriggerEnter(Collider other)                    //OnTriggerStar   刚开始接触就运行下面的命令
         {
             Vector3 telepoint = dest.transform.position;
-            Debug.Log(telepoint);
-            GameObject.Find("Robin").GetComponent<PlayerInput>()._movementAllowed = false;
-            GameObject.Find("Robin").transform.position = telepoint;
+            robin.GetComponent<CharacterControl>()._movementAllowed = false;
+            robin.transform.position = telepoint;
+        while (robin.transform.position != telepoint)
+        {
+            robin.transform.position = telepoint;
+            Debug.Log("tran");
+        }
             disablecamera.SetActive(false);
             enablecamera.SetActive(true);
-            Invoke("getc", 0.1f);
+            Invoke("getc", 0.5f);
         }
 
-        private void OnTriggerStay(Collider other)
-        {
-            Vector3 telepoint = dest.transform.position;
-            Debug.Log(telepoint);
-            GameObject.Find("Robin").transform.position = telepoint;
-        }
+       
         void getc()
         {
-            GameObject.Find("Robin").GetComponent<PlayerInput>()._movementAllowed = true;
+            robin.GetComponent<CharacterControl>()._movementAllowed = true;
         }
     }
-}
+
