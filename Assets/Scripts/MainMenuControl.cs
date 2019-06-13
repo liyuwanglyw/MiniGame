@@ -1,9 +1,10 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
-public class Quitgame : MonoBehaviour
+using UnityEngine.SceneManagement;
+public class MainMenuControl : MonoBehaviour
 {
+    public GameObject setMenu;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,7 +16,19 @@ public class Quitgame : MonoBehaviour
     {
         
     }
-    public void quitgame()
+
+    public void OnStartGameBtnClick()
+    {
+        SceneManager.LoadScene("LevelChoose2");
+    }
+
+    public void OnSetMenuBtnClick()
+    {
+        gameObject.SetActive(false);
+        setMenu.gameObject.SetActive(true);
+    }
+
+    public void OnQuitBtnClick()
     {
 #if UNITY_EDITOR
 
@@ -23,12 +36,12 @@ public class Quitgame : MonoBehaviour
 
         Debug.Log("编辑状态游戏退出");
 
-        #else
+#else
 
             Application.Quit();
 
             Debug.Log ("游戏退出"):
 
-        #endif
+#endif
     }
 }
