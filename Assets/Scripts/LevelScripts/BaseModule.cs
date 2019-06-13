@@ -301,16 +301,10 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 
     public void CloseLock()
     {
-        Debug.Log("CloseLock");
         if (current_type == ModuleType.SignalRev)
         {
-            Debug.Log(transform.GetChild(0).gameObject.name);
-            Debug.Log(transform.GetChild(0).GetChild(0).gameObject.name);
             Sprite lock_sprite= Resources.Load<Sprite>("ModuleSprites/SignalRev1");
-            if(lock_sprite==null)
-            {
-                Debug.Log(1);
-            }
+            
             transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = lock_sprite;
         }
     }
