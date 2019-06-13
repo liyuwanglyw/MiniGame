@@ -31,7 +31,7 @@ using UnityEngine;
 
         disablecamera.SetActive(false);
         enablecamera.SetActive(true);
-        Invoke("getc", 0.1f);
+        Invoke("getc", 0.05f);
         Debug.Log(robin.transform.position);
     }
     private void OnTriggerStay(Collider other)

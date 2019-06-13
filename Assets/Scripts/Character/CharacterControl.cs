@@ -67,6 +67,14 @@ public class CharacterControl : MonoBehaviour
 
     public void Over()
     {
+        GameObject.Find("关卡完成音效 ").GetComponent<AudioSource>().Play();
+        GameObject.Find("关卡完成音效2_门打开").GetComponent<AudioSource>().Play();
+        Invoke("over2", 0.7f);
+       
+    }
+
+    void over2()
+    {
         Debug.Log("over");
         MapControl.getInstance().HideGame();
         opendoor.GetComponent<Doorcontrol>().isdooropen = true;
