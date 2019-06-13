@@ -214,7 +214,7 @@ public class MapControl : MonoBehaviour
         {
             signal_gen[i].OutputState();
         }
-        for (int i = 0; i < signal_gen.Count; i++)
+        for (int i = 0; i < signal_rev.Count; i++)
         {
             signal_rev[i].FillPipe();
         }
