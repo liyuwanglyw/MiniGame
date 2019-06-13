@@ -39,7 +39,7 @@ public class CharacterControl : MonoBehaviour
         }
         else if (Input.GetKey(KeyCode.F))
         {
-            if(Openlevel != null)
+            if (!Openlevel.Equals(""))
             {
                 MapControl.getInstance().StartLevel(Openlevel, Over);
             }
