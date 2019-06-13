@@ -1117,6 +1117,11 @@ PrefabInstance:
     - target: {fileID: 3328254361470764772, guid: 78837582f447137419ad609c0e0253bf,
         type: 3}
       propertyPath: gen_color.g
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3328254361470764772, guid: 78837582f447137419ad609c0e0253bf,
+        type: 3}
+      propertyPath: gen_color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3328254360912751694, guid: 78837582f447137419ad609c0e0253bf,
