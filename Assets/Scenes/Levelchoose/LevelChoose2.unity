@@ -14475,7 +14475,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a94489ceacb23b48bdc40be4d783072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelname: room1rightlevel
+  levelname: LevelPrefab1
   door: {fileID: 74351569}
 --- !u!65 &1024516454
 BoxCollider:
