@@ -71,6 +71,7 @@ public class MapControl : MonoBehaviour
 
     [HideInInspector]
     public BaseModule[,] modules;//存放所有BaseModule对象
+    private int module_count;
     [HideInInspector]
     public int m,n;//地图规格 m*n
     private List<BaseModule> signal_gen;//存放所有发射点
@@ -145,6 +146,7 @@ public class MapControl : MonoBehaviour
         modules = new BaseModule[m, n];
         BaseModule[] mod = map_panel.GetComponentsInChildren<BaseModule>();
         Debug.Log(mod.Length);
+        module_count = mod.Length;
         for (int i = 0; i < m; i++)
         {
             for (int j = 0; j < n; j++)
@@ -190,9 +192,16 @@ public class MapControl : MonoBehaviour
             {
                 for (int j = 0; j < modules.GetLength(1); j++)
                 {
-                    if (!modules[i,j].isInit)
+                    if (i * n + j < module_count)
                     {
-                        isModuleInit = false;
+                        if (modules[i, j] != null && !modules[i, j].isInit)
+                        {
+                            isModuleInit = false;
+                            break;
+                        }
+                    }
+                    else
+                    {
                         break;
                     }
                 }
