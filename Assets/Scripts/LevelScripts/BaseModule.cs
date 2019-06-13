@@ -222,6 +222,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                     {
                         ColorStream input = allInputs[direct];
                         output = new ColorStream(!input.r,!input.g, !input.b);
+                        output.isValid = input.isValid;
                         output.isPolluted = input.isPolluted;
                         break;
                     }
@@ -298,6 +299,31 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         isInit = true;
     }
 
+    public void CloseLock()
+    {
+        Debug.Log("CloseLock");
+        if (current_type == ModuleType.SignalRev)
+        {
+            Debug.Log(transform.GetChild(0).gameObject.name);
+            Debug.Log(transform.GetChild(0).GetChild(0).gameObject.name);
+            Sprite lock_sprite= Resources.Load<Sprite>("ModuleSprites/SignalRev1");
+            if(lock_sprite==null)
+            {
+                Debug.Log(1);
+            }
+            transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite = lock_sprite;
+        }
+    }
+
+    public void OpenLock()
+    {
+        if(current_type==ModuleType.SignalRev)
+        {
+            transform.GetChild(0).GetChild(0).GetComponent<Image>().sprite =
+                Resources.Load<Sprite>("ModuleSprites/OpenLock");
+        }
+    }
+
     #region module状态传播
     public void InputState(int direct,ColorStream color)
     {
@@ -356,12 +382,14 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
 
     public void OutputState()
     {
-        if (out_state.isValid)
+        FillPipe();
+        float spread_time = 0.5f;
+        if(pipe_control!=null)
         {
-            FillPipe();
-            
-            Invoke("Spread", pipe_control.flow_time);
+            spread_time=pipe_control.flow_time;
         }
+        Invoke("Spread", spread_time);
+        
     }
 
     public void OutputState(int d)
@@ -370,66 +398,64 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         {
 
         }
-        if (out_state.isValid)
+        switch (current_type)
         {
-            switch (current_type)
-            {
-                case ModuleType.SignalGen:
-                case ModuleType.BridgeOut:
-                case ModuleType.SPipe:
-                case ModuleType.NotGate:
-                case ModuleType.AndGate:
-                case ModuleType.OrGate:
-                case ModuleType.CleanMachine:
+            case ModuleType.SignalGen:
+            case ModuleType.BridgeOut:
+            case ModuleType.SPipe:
+            case ModuleType.NotGate:
+            case ModuleType.AndGate:
+            case ModuleType.OrGate:
+            case ModuleType.CleanMachine:
+                {
+                    if (d == (direct + 2) % 4)
                     {
-                        if (d == (direct + 2) % 4)
+                        BaseModule next = GetNextModule(d);
+                        if (next != null)
+                        {
+                            next.InputState(direct, out_state);
+                        }
+                    }
+                    break;
+                }
+            case ModuleType.TPipe:
+                {
+                    if (d == (direct + 1) % 4 || d == (direct + 3) % 4)
+                    {
+                        BaseModule next_a = GetNextModule(d);
+                        if (next_a != null)
+                        {
+                            next_a.InputState((d+2)%4, out_state);
+                        }
+                    }
+                    break;
+                }
+            case ModuleType.XPipe:
+                {
+                    for (int i = 1; i < 4; i++)
+                    {
+                        if (d == (direct + i) % 4)
                         {
                             BaseModule next = GetNextModule(d);
                             if (next != null)
                             {
-                                next.InputState(direct, out_state);
+                                next.InputState((d + 2) % 4, out_state);
+                                break;
                             }
                         }
-                        break;
                     }
-                case ModuleType.TPipe:
-                    {
-                        if (d == (direct + 1) % 4 || d == (direct + 3) % 4)
-                        {
-                            BaseModule next_a = GetNextModule(d);
-                            if (next_a != null)
-                            {
-                                next_a.InputState((d+2)%4, out_state);
-                            }
-                        }
-                        break;
-                    }
-                case ModuleType.XPipe:
-                    {
-                        for (int i = 1; i < 4; i++)
-                        {
-                            if (d == (direct + i) % 4)
-                            {
-                                BaseModule next = GetNextModule(d);
-                                if (next != null)
-                                {
-                                    next.InputState((d + 2) % 4, out_state);
-                                    break;
-                                }
-                            }
-                        }
-                        break;
-                    }
-                case ModuleType.BridgeIn:
-                    {
-                        bridge_out.InputState(4, out_state);
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
-            }
+                    break;
+                }
+            case ModuleType.BridgeIn:
+                {
+                    bridge_out.InputState(4, out_state);
+                    break;
+                }
+            default:
+                {
+                    break;
+                }
+            
         }
     }
 
@@ -486,6 +512,14 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                 }
             default:
                 {
+                    for (int i = 0; i < 4; i++)
+                    {
+                        BaseModule next = GetNextModule((direct + i) % 4);
+                        if (next != null)
+                        {
+                            next.InputState((direct + i + 2) % 4, out_state);
+                        }
+                    }
                     break;
                 }
         }
@@ -503,51 +537,56 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
             }
             pipe_control.FillPipe(colors);
         }
-
-        pipe_control.CleanPipe();
-        if (out_state.isValid)
+        else
         {
-            switch (current_type)
+            if (pipe_control != null)
             {
-                case ModuleType.SignalGen:
-                case ModuleType.BridgeOut:
-                case ModuleType.SPipe:
-                case ModuleType.TPipe:
-                case ModuleType.XPipe:
-                case ModuleType.BridgeIn:
-                    {
-                        Color[] colors = new Color[4];
-                        for (int i = 0; i < colors.Length; i++)
+                pipe_control.CleanPipe();
+            }
+            if (out_state.isValid)
+            {
+                switch (current_type)
+                {
+                    case ModuleType.SignalGen:
+                    case ModuleType.BridgeOut:
+                    case ModuleType.SPipe:
+                    case ModuleType.TPipe:
+                    case ModuleType.XPipe:
+                    case ModuleType.BridgeIn:
                         {
-                            colors[i] = out_state.real_color;
+                            Color[] colors = new Color[4];
+                            for (int i = 0; i < colors.Length; i++)
+                            {
+                                colors[i] = out_state.real_color;
+                            }
+                            pipe_control.FillPipe(colors);
+                            break;
                         }
-                        pipe_control.FillPipe(colors);
-                        break;
-                    }
 
-                case ModuleType.AndGate:
-                case ModuleType.OrGate:
-                    {
-                        Color[] colors = new Color[3];
-                        colors[0] = allInputs[direct].real_color;
-                        colors[1] = allInputs[(direct + 3) % 4].real_color;
-                        colors[2] = out_state.real_color;
-                        pipe_control.FillPipe(colors);
-                        break;
-                    }
-                case ModuleType.NotGate:
-                case ModuleType.CleanMachine:
-                    {
-                        Color[] colors = new Color[2];
-                        colors[0] = allInputs[direct].real_color;
-                        colors[1] = out_state.real_color;
-                        pipe_control.FillPipe(colors);
-                        break;
-                    }
-                default:
-                    {
-                        break;
-                    }
+                    case ModuleType.AndGate:
+                    case ModuleType.OrGate:
+                        {
+                            Color[] colors = new Color[3];
+                            colors[0] = allInputs[direct].real_color;
+                            colors[1] = allInputs[(direct + 3) % 4].real_color;
+                            colors[2] = out_state.real_color;
+                            pipe_control.FillPipe(colors);
+                            break;
+                        }
+                    case ModuleType.NotGate:
+                    case ModuleType.CleanMachine:
+                        {
+                            Color[] colors = new Color[2];
+                            colors[0] = allInputs[direct].real_color;
+                            colors[1] = out_state.real_color;
+                            pipe_control.FillPipe(colors);
+                            break;
+                        }
+                    default:
+                        {
+                            break;
+                        }
+                }
             }
         }
     }
@@ -560,7 +599,6 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         all_types.Push(module_type);
         SetModule(module_type, map.direct);
         UpdateModule();
-
     }
 
     private void SoldModule()
@@ -618,6 +656,8 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         this.direct = direct;
 
         map.ChangeMouseStateToEmpty();
+
+        AudioControl.instance.PlayModule();
     }
 
     public void UpdateModule()
@@ -654,7 +694,14 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
                 }
             case ModuleType.Plat:
             default:
-                break;
+                {
+                    for(int i=0;i<allInputs.Length;i++)
+                    {
+                        allInputs[i] = new ColorStream();
+                    }
+                    OutputState();
+                    break;
+                }
         }
     }
     #endregion

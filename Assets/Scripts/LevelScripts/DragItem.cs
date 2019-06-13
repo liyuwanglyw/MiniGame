@@ -38,6 +38,7 @@ public class DragItem : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,
             int gold = map.GetModuleCost(type);
             if (map.mouse_state==DragType.Empty&&map.gold>=gold)
             {
+                AudioControl.instance.PlayModule();
                 map.gold -= gold;
                 map.drag_item.GetComponent<Image>().sprite = sprite;
                 map.drag_item.gameObject.SetActive(true);
