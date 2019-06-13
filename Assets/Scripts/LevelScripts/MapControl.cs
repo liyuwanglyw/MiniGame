@@ -94,6 +94,7 @@ public class MapControl : MonoBehaviour
     {
         instance = this;
         GameInit();
+        GameStart();
     }
     
     public static MapControl getInstance()
@@ -218,6 +219,8 @@ public class MapControl : MonoBehaviour
         {
             signal_rev[i].FillPipe();
         }
+
+        AudioControl.instance.PlayStartLevel();
         StartCoroutine(CheckGameOver());
     }
     
@@ -232,7 +235,12 @@ public class MapControl : MonoBehaviour
             {
                 if (signal_rev[i].rev_color != signal_rev[i].out_state)
                 {
+                    signal_rev[i].CloseLock();
                     isGameOver = false;
+                }
+                else
+                {
+                    signal_rev[i].OpenLock();
                 }
             }
             yield return new WaitForSeconds(0.5f);
@@ -306,6 +314,7 @@ public class MapControl : MonoBehaviour
                 modules[i, j].ResetModule();
             }
         }
+        AudioControl.instance.PlayBtnClick();
     }
 
     //显示游戏画面
@@ -317,6 +326,7 @@ public class MapControl : MonoBehaviour
     //隐藏游戏画面
     public void HideGame()
     {
+        AudioControl.instance.PlayBtnClick();
         back_area.gameObject.SetActive(false);
     }
     #endregion
@@ -327,7 +337,7 @@ public class MapControl : MonoBehaviour
         {
             Debug.Log(1);
             //MapControl map=MapControl.getInstance();
-           StartLevel("LevelPrefab1", Over);
+           StartLevel("room8rightlevel", Over);
             //map.HideGame();
         }
         if (Input.GetKeyDown(KeyCode.Space))
@@ -356,6 +366,7 @@ public class MapControl : MonoBehaviour
 
             if (Input.GetMouseButtonDown(1))
             {
+                AudioControl.instance.PlayRotate();
                 drag_item.Rotate(0, 0, 90);
                 direct += 1;
                 direct %= 4;
@@ -373,6 +384,7 @@ public class MapControl : MonoBehaviour
     #region 鼠标状态转换函数
     public void ChangeMouseStateToSold()
     {
+        AudioControl.instance.PlayBtnClick();
         ChangeMouseState(DragType.Sold);
     }
 
@@ -448,5 +460,6 @@ public class MapControl : MonoBehaviour
     public void ShowNote()
     {
         help_panel.gameObject.SetActive(true);
+        AudioControl.instance.PlayBtnClick();
     }
 }
