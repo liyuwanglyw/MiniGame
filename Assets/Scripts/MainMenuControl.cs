@@ -40,7 +40,7 @@ public class MainMenuControl : MonoBehaviour
 
             Application.Quit();
 
-            Debug.Log ("游戏退出"):
+            Debug.Log ("游戏退出");
 
 #endif
     }

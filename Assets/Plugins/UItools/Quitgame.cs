@@ -23,12 +23,12 @@ public class Quitgame : MonoBehaviour
 
         Debug.Log("编辑状态游戏退出");
 
-        #else
+#else
 
             Application.Quit();
 
-            Debug.Log ("游戏退出"):
+            Debug.Log ("游戏退出");
 
-        #endif
+#endif
     }
 }
