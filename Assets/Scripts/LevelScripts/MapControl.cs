@@ -219,8 +219,7 @@ public class MapControl : MonoBehaviour
         {
             signal_rev[i].FillPipe();
         }
-
-        AudioControl.instance.PlayStartLevel();
+        
         StartCoroutine(CheckGameOver());
     }
     
