@@ -54,6 +54,7 @@ public class DragItem : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,
     {
         isMouseStay = true;
         enter_time = Time.time;
+
         StartCoroutine(CheckMouseStay());
     }
 
@@ -65,13 +66,16 @@ public class DragItem : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,
 
     private IEnumerator CheckMouseStay()
     {
-        while(isMouseStay)
+        Vector3 world_point;
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(
+            MapControl.getInstance().GetComponent<RectTransform>(), transform.position, Camera.main, out world_point);
+        while (isMouseStay)
         {
             if(Time.time-enter_time>0.5f)
             {
                 ModuleNote.instance.gameObject.SetActive(true);
                 ModuleNote.instance.SetNote(note);
-                ModuleNote.instance.SetPosition(transform.position);
+                ModuleNote.instance.SetPosition(world_point);
             }
             yield return null;
         }
