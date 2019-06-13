@@ -1174,18 +1174,18 @@ MonoBehaviour:
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 10
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: hrgxdhfdexgsdzfdgbzdbfdnzdgbdsfvzgfbdgzdfgdbdfzg
+  m_Text: "            \u5907\u5FD8\u5F55\n\n1.\u6865\u63A5\u5668\u662F\u9884\u8BBE\u7684\u7535\u8DEF\u7EC4\u4EF6\uFF0C\u5B83\u53EF\u4EE5\u4FE1\u53F7\u4ECE\u6865\u63A5\u5668\u8F93\u5165\u7AEF\u76F4\u63A5\u8FDE\u63A5\u5230\u8DDD\u79BB\u8F83\u8FDC\u7684\u6865\u63A5\u5668\u8F93\u51FA\u7AEF\u3002"
 --- !u!1 &7821787515639390090
 GameObject:
   m_ObjectHideFlags: 0
