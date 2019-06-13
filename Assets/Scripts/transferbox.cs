@@ -22,23 +22,27 @@ using UnityEngine;
         }
         private void OnTriggerEnter(Collider other)                    //OnTriggerStar   刚开始接触就运行下面的命令
         {
-            Vector3 telepoint = dest.transform.position;
-            robin.GetComponent<CharacterControl>()._movementAllowed = false;
-            robin.transform.position = telepoint;
-        while (robin.transform.position != telepoint)
-        {
-            robin.transform.position = telepoint;
-            Debug.Log("tran");
-        }
-            disablecamera.SetActive(false);
-            enablecamera.SetActive(true);
-            Invoke("getc", 0.5f);
-        }
+        Vector3 telepoint = dest.transform.position;
+        robin.GetComponent<CharacterControl>()._movementAllowed = false;
+        robin.GetComponent<CharacterControl>()._animator.SetBool("Walk", false);
+        robin.GetComponent<Animator>().applyRootMotion = false;
 
-       
-        void getc()
+        robin.transform.position = telepoint;
+
+        disablecamera.SetActive(false);
+        enablecamera.SetActive(true);
+        Invoke("getc", 0.1f);
+        Debug.Log(robin.transform.position);
+    }
+    private void OnTriggerStay(Collider other)
+    {
+  
+    }
+
+    void getc()
         {
             robin.GetComponent<CharacterControl>()._movementAllowed = true;
-        }
+        robin.GetComponent<Animator>().applyRootMotion = true;
+    }
     }
 
