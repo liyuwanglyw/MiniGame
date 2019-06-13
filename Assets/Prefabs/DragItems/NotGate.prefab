@@ -152,7 +152,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: "\u4E0E\u95E8:\u4E0E\u95E8\u53EF\u4EE5\u5C06\u8F93\u5165\u7684\u4FE1\u53F7\u505A\"\u975E\"\u64CD(\u53D6\u8865\u96C6)\u4F5C\u540E\u8F93\u51FA\u3002\u5982\u7EA2\u8272\u4FE1\u53F7\u7ECF\u8FC7\u4E0E\u95E8\u540E\u4F1A\u8F93\u51FA\u7D2B\u8272"
 --- !u!1 &4867222194801126265
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,3 +243,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 7
+  note: "\u4E0E\u95E8:\u4E0E\u95E8\u53EF\u4EE5\u5C06\u8F93\u5165\u7684\u4FE1\u53F7\u505A\"\u975E\"\u64CD(\u53D6\u8865\u96C6)\u4F5C\u540E\u8F93\u51FA\u3002\u5982\u7EA2\u8272\u4FE1\u53F7\u7ECF\u8FC7\u4E0E\u95E8\u540E\u4F1A\u8F93\u51FA\u7D2B\u8272"

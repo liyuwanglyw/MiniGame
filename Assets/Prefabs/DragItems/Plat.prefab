@@ -164,6 +164,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 8
+  note: "\u7EC4\u4EF6\u67B6\uFF1A\u7EC4\u4EF6\u67B6\u53EF\u4EE5\u8BA9\u4F60\u5728\u963B\u585E\u533A\u642D\u5EFA\u7EC4\u4EF6\u3002"
 --- !u!1 &2983241376932795437
 GameObject:
   m_ObjectHideFlags: 0
@@ -242,4 +243,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: New Text
+  m_Text: "\u7EC4\u4EF6\u67B6\uFF1A\u7EC4\u4EF6\u67B6\u53EF\u4EE5\u8BA9\u4F60\u5728\u963B\u585E\u533A\u642D\u5EFA\u7EC4\u4EF6\u3002"

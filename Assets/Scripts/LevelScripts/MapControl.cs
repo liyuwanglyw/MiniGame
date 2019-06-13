@@ -265,9 +265,10 @@ public class MapControl : MonoBehaviour
 
     #region 游戏关卡控制
     //开始关卡
-    public bool StartLevel(string level_name, GameOverCallBack callBack = null)
+    public bool StartLevel(string level_name, int gold,GameOverCallBack callBack = null)
     {
         ShowGame();
+        init_gold = gold;
         bool succeed = ChangeLevel(level_name, callBack);
         GameStart();
         return succeed;
@@ -306,6 +307,7 @@ public class MapControl : MonoBehaviour
     //重置关卡
     public void ResetLevel()
     {
+        gold = init_gold;
         for (int i = 0; i < modules.GetLength(0); i++)
         {
             for (int j = 0; j < modules.GetLength(1); j++)
@@ -336,7 +338,6 @@ public class MapControl : MonoBehaviour
         {
             Debug.Log(1);
             //MapControl map=MapControl.getInstance();
-           StartLevel("room8rightlevel", Over);
             //map.HideGame();
         }
         if (Input.GetKeyDown(KeyCode.Space))

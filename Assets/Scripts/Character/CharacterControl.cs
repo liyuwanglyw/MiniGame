@@ -8,6 +8,7 @@ public class CharacterControl : MonoBehaviour
     public string Openlevel;
     public GameObject opendoor;
     public bool _movementAllowed = true;
+    int mygold = 20000;
     // Start is called before the first frame update
     void Start()
     {
@@ -46,7 +47,7 @@ public class CharacterControl : MonoBehaviour
             {
                 if (!Openlevel.Equals(""))
                 {
-                    MapControl.getInstance().StartLevel(Openlevel, Over);
+                    MapControl.getInstance().StartLevel(Openlevel,mygold ,Over);
                 }
             }
             else
