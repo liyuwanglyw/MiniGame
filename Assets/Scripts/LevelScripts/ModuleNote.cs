@@ -15,6 +15,10 @@ public class ModuleNote : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        Vector3 world_point;
+        RectTransformUtility.ScreenPointToWorldPointInRectangle(
+            MapControl.getInstance().GetComponent<RectTransform>(), transform.position, Camera.main, out world_point);
+        Debug.Log(world_point);
     }
 
     // Update is called once per frame
@@ -31,7 +35,8 @@ public class ModuleNote : MonoBehaviour
 
     public void SetPosition(Vector3 pos)
     {
-        transform.position = pos + new Vector3(-146, -20);
+        Vector3 note_pos = pos + new Vector3(-2.7f, -0.5f);
+        transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, note_pos);
     }
     
 }
