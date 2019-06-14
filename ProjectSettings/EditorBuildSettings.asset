@@ -8,13 +8,13 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/EndUI.unity
     guid: 27948a9bf4a82244db0600eb3b020534
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Levelchoose/LevelChoose2.unity
     guid: a343a55c0639c4e4c90510aaff740298
   - enabled: 0
-    path: Assets/Scenes/MainMenu1.unity
-    guid: 14535c624b716124091e878b4d2a2943
-  - enabled: 1
+    path: 
+    guid: 00000000000000000000000000000000
+  - enabled: 0
     path: Assets/Scenes/LevelScene.unity
     guid: 06efb0be26c380c4181875be33ec5789
   m_configObjects: {}
