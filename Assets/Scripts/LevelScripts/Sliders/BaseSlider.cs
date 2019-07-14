@@ -1,0 +1,61 @@
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.UI;
+public class BaseSlider : MonoBehaviour
+{
+    public float flow_speed=200;
+    public float flow_time
+    {
+        get
+        {
+            if(sliders.Length==1)
+            {
+                return 100 / flow_speed;
+            }
+            else
+            {
+                return 200 / flow_speed;
+            }
+        }
+    }
+    protected Slider[] sliders;
+    protected Image[] fill_img;
+    // Start is called before the first frame update
+    void Awake()
+    {
+        sliders = GetComponentsInChildren<Slider>();
+        fill_img = new Image[sliders.Length];
+        for(int i=0;i<sliders.Length;i++)
+        {
+            fill_img[i] = sliders[i].transform.GetChild(0).Find("Fill").GetComponent<Image>();
+        }
+
+        CleanPipe();
+    }
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        
+    }
+
+    public void FillPipe(Color[] colors)
+    {
+        StartCoroutine(StartFlow(colors));
+    }
+
+    public virtual IEnumerator StartFlow(Color[] colors)
+    {
+        yield return null;
+    }
+
+    public void CleanPipe()
+    {
+        for(int i=0;i<sliders.Length;i++)
+        {
+            sliders[i].value = 0;
+        }
+    }
+}

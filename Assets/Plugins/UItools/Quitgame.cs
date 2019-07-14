@@ -17,6 +17,18 @@ public class Quitgame : MonoBehaviour
     }
     public void quitgame()
     {
-        Application.Quit();
+#if UNITY_EDITOR
+
+        UnityEditor.EditorApplication.isPlaying = false;
+
+        Debug.Log("编辑状态游戏退出");
+
+#else
+
+            Application.Quit();
+
+            Debug.Log ("游戏退出");
+
+#endif
     }
 }

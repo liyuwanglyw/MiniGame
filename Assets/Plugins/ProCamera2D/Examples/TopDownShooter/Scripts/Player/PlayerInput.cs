@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
 {
@@ -16,6 +18,13 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
         CharacterController _characterController;
 
         bool _movementAllowed = true;
+        private Animator _animator;
+        public string Openlevel;
+        public GameObject opendoor;
+
+        CharacterController _characterController;
+
+        public bool _movementAllowed = true;
 
         void Start()
         {
@@ -42,6 +51,38 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
         {
             if (!_movementAllowed)
                 return;
+
+            if (Input.GetKey(KeyCode.A))
+            {
+                this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, -90, 0);
+                _animator.SetBool("Walk", true);
+            }
+            else if (Input.GetKey(KeyCode.D))
+            {
+                this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 90, 0);
+                _animator.SetBool("Walk", true);
+            }
+            else if (Input.GetKey(KeyCode.W))
+            {
+                this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 0, 0);
+                _animator.SetBool("Walk", true);
+            }
+            else if (Input.GetKey(KeyCode.S))
+            {
+                this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, 180, 0);
+                _animator.SetBool("Walk", true);
+            }
+            else if (Input.GetKey(KeyCode.F))
+            {
+                if (!Openlevel.Equals(""))
+                {
+                    //MapControl.getInstance().StartLevel(Openlevel, Over);
+                }
+            }
+            else
+            {
+                _animator.SetBool("Walk", false);
+            }
 
             var targetSpeedH = Input.GetAxis("Horizontal") * RunSpeed;
             _currentSpeedH = IncrementTowards(_currentSpeedH, targetSpeedH, Acceleration);

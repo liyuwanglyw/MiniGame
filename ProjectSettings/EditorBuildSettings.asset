@@ -6,6 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/EndUI.unity
-    guid: 27948a9bf4a82244db0600eb3b020534
+    path: Assets/Scenes/Levelchoose/LevelChoose2.unity
+    guid: a343a55c0639c4e4c90510aaff740298
   m_configObjects: {}
