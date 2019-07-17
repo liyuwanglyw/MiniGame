@@ -1,9 +1,6 @@
 ﻿using UnityEngine;
-<<<<<<< HEAD
-=======
 using System.Collections;
 using System.Collections.Generic;
->>>>>>> Dev
 
 namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
 {
@@ -18,11 +15,6 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
         Vector3 _amountToMove;
         int _totalJumps;
 
-<<<<<<< HEAD
-        CharacterController _characterController;
-
-        bool _movementAllowed = true;
-=======
         private Animator _animator;
         public string Openlevel;
         public GameObject opendoor;
@@ -30,7 +22,7 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
         CharacterController _characterController;
 
         public bool _movementAllowed = true;
->>>>>>> Dev
+
 
         void Start()
         {
@@ -58,8 +50,6 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
             if (!_movementAllowed)
                 return;
 
-<<<<<<< HEAD
-=======
             if (Input.GetKey(KeyCode.A))
             {
                 this.GetComponent<Transform>().localRotation = Quaternion.Euler(0, -90, 0);
@@ -92,7 +82,6 @@ namespace Com.LuisPedroFonseca.ProCamera2D.TopDownShooter
                 _animator.SetBool("Walk", false);
             }
 
->>>>>>> Dev
             var targetSpeedH = Input.GetAxis("Horizontal") * RunSpeed;
             _currentSpeedH = IncrementTowards(_currentSpeedH, targetSpeedH, Acceleration);
 
