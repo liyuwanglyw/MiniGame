@@ -47,7 +47,7 @@ public class CharacterControl : MonoBehaviour
             {
                 if (!Openlevel.Equals(""))
                 {
-                    MapControl.getInstance().StartLevel(Openlevel,mygold ,Over);
+                    MapControl.getInstance().StartLevel(Openlevel,Over);
                 }
             }
             else

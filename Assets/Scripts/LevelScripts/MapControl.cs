@@ -96,6 +96,8 @@ public class MapControl : MonoBehaviour
         GameInit();
         GameStart();
     }
+
+  
     
     public static MapControl getInstance()
     {
@@ -265,10 +267,9 @@ public class MapControl : MonoBehaviour
 
     #region 游戏关卡控制
     //开始关卡
-    public bool StartLevel(string level_name, int gold,GameOverCallBack callBack = null)
+    public bool StartLevel(string level_name,GameOverCallBack callBack = null)
     {
         ShowGame();
-        init_gold = gold;
         bool succeed = ChangeLevel(level_name, callBack);
         GameStart();
         return succeed;
@@ -285,6 +286,7 @@ public class MapControl : MonoBehaviour
 
             GameObject next_level = Instantiate(level_prefab);
             GameObject current_level = level_panel;
+            init_gold = level_prefab.GetComponent<goldsave>().gold;
 
             next_level.transform.parent = back_area;
             next_level.transform.localPosition = current_level.transform.localPosition;
@@ -380,6 +382,7 @@ public class MapControl : MonoBehaviour
         mouse_state = DragType.Empty;
         direct = 0;
     }
+
 
     #region 鼠标状态转换函数
     public void ChangeMouseStateToSold()
