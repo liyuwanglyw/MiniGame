@@ -51,7 +51,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e633fe629c8b4d34bb0978eb9c9dcd90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gold: 10000
+  gold: 2500
+  star1: 0
+  star2: 300
+  star3: 500
 --- !u!1 &2213773125054275236
 GameObject:
   m_ObjectHideFlags: 0
@@ -8664,6 +8667,11 @@ PrefabInstance:
     - target: {fileID: 392736644445603050, guid: 597972c6238f8b94d84a41bf05bdbc38,
         type: 3}
       propertyPath: rev_color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 392736644445603050, guid: 597972c6238f8b94d84a41bf05bdbc38,
+        type: 3}
+      propertyPath: rev_color.b
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 392736644017519445, guid: 597972c6238f8b94d84a41bf05bdbc38,
