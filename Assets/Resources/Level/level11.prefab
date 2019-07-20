@@ -676,6 +676,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gold: 10000
+  star1: 0
+  star2: 5000
+  star3: 7700
 --- !u!1 &6209421447927565322
 GameObject:
   m_ObjectHideFlags: 0
