@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class leveleditor : MonoBehaviour
 {
@@ -26,6 +27,9 @@ public class leveleditor : MonoBehaviour
         toggleb.onValueChanged.AddListener(changeB);
         dropdirection.onValueChanged.AddListener(changeD);
         save.onClick.AddListener(savegame);
+        r = true;
+        b = true;
+        g = true;
     }
 
    
@@ -55,6 +59,11 @@ public class leveleditor : MonoBehaviour
     public void savegame()
     {
         Debug.Log("insavelevel");
-        PrefabUtility.SaveAsPrefabAsset(level, "Assets/playersavelevel/mylevel.prefab");
+        PrefabUtility.SaveAsPrefabAsset(level, "Assets/Resources/playersavelevel/mylevel.prefab");
+        Invoke("switchscene", 0.5f);
+    }
+    public void switchscene()
+    {
+        SceneManager.LoadScene("Leveleditorplay");
     }
 }

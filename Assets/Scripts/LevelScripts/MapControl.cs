@@ -307,6 +307,46 @@ public class MapControl : MonoBehaviour
     }
 
     //重置关卡
+
+    public bool editorStartLevel(string level_name, GameOverCallBack callBack = null)
+    {
+        ShowGame();
+        bool succeed = editorChangeLevel(level_name, callBack);
+        GameStart();
+        return succeed;
+    }
+
+    //切换关卡
+    public bool editorChangeLevel(string level_name, GameOverCallBack callBack = null)
+    {
+        string level_path = "playersavelevel/mylevel";
+        GameObject level_prefab = Resources.Load<GameObject>(level_path);
+        if (level_prefab != null && callBack != null)
+        {
+            SetGameOverCallBack(callBack);
+
+            GameObject next_level = Instantiate(level_prefab);
+            GameObject current_level = level_panel;
+            init_gold = level_prefab.GetComponent<goldsave>().gold;
+
+            next_level.transform.parent = back_area;
+            next_level.transform.localPosition = current_level.transform.localPosition;
+            next_level.transform.localScale = current_level.transform.localScale;
+            next_level.transform.rotation = current_level.transform.rotation;
+            next_level.transform.SetSiblingIndex(0);
+
+            Destroy(current_level);
+
+            level_panel = next_level;
+            GameInit();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    //编辑器开始关卡
     public void ResetLevel()
     {
         gold = init_gold;
