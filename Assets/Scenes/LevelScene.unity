@@ -21253,7 +21253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isPolluted: 0
-  direct: 1
+  direct: 3
   init_type: 3
   bridge_out: {fileID: 0}
   gen_color:
