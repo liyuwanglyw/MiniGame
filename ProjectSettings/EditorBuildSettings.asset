@@ -8,4 +8,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levelchoose/LevelChoose2.unity
     guid: a343a55c0639c4e4c90510aaff740298
+  - enabled: 1
+    path: Assets/Scenes/Leveleditorplay.unity
+    guid: d6501bb3a3489ea4ca815547f2bd666b
   m_configObjects: {}

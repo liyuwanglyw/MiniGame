@@ -30,6 +30,7 @@ public class Dragmap : MonoBehaviour, IPointerClickHandler
         {
             GameObject citem = Instantiate(item);
             citem.transform.parent = panel.transform;
+            citem.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         }
         if(type == 1)
         {
@@ -41,6 +42,7 @@ public class Dragmap : MonoBehaviour, IPointerClickHandler
             citem.GetComponent<BaseModule>().direct = editor.direction;
             citem.GetComponent<RectTransform>().rotation = Quaternion.Euler(0.0f, 0.0f, (editor.direction+3) * 90f);
             citem.transform.parent = panel.transform;
+            citem.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         }
         if (type == 2)
         {
@@ -52,6 +54,7 @@ public class Dragmap : MonoBehaviour, IPointerClickHandler
             citem.GetComponent<BaseModule>().direct = editor.direction;
             citem.GetComponent<RectTransform>().rotation = Quaternion.Euler(0.0f, 0.0f, (editor.direction + 1) * 90f);
             citem.transform.parent = panel.transform;
+            citem.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         }
   
     }
