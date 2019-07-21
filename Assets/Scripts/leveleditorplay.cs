@@ -1,12 +1,22 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+
 
 public class leveleditorplay : MonoBehaviour
 {
     // Start is called before the first frame update
+    public GameObject overpanel;
+    public  Button upload;
+    public Button back;
+
     void Start()
     {
+        overpanel = GameObject.Find("overpanel");
+        overpanel.SetActive(false);
+        back.onClick.AddListener(backtomain);
         Invoke("startlevel",0.1f);
     }
 
@@ -22,6 +32,10 @@ public class leveleditorplay : MonoBehaviour
     }
     public void callback()
     {
-
+        overpanel.SetActive(true);
+    }
+    public void backtomain()
+    {
+        SceneManager.LoadScene("MainUI");
     }
 }
