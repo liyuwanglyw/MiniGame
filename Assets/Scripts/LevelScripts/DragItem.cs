@@ -16,6 +16,10 @@ public class DragItem : MonoBehaviour,IPointerClickHandler,IPointerEnterHandler,
     private float enter_time=0;
     private bool isMouseStay = false;
     // Start is called before the first frame update
+
+
+
+
     void Start()
     {
         map = MapControl.getInstance();
