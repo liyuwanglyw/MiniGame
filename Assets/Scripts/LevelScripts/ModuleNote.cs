@@ -32,8 +32,11 @@ public class ModuleNote : MonoBehaviour
 
     public void SetPosition(Vector3 pos)
     {
+<<<<<<< HEAD
         Vector3 note_pos = pos + new Vector3(-2.7f, -0.5f);
+=======
         Vector3 note_pos = pos + new Vector3(-2.5f, -0.5f);
+>>>>>>> f5c718f5b3a6b3225076fcfed437a8180bbe26be
         transform.position = RectTransformUtility.WorldToScreenPoint(Camera.main, note_pos);
     }
     
