@@ -48,6 +48,7 @@ public class MainUIManager : MonoBehaviour
         page_dict.Add(PageType.GamePage, gamePage);
 
         ShowPage(PageType.PrePage);
+        //ShowPage(PageType.EndMenu);
     }
 
     // Update is called once per frame

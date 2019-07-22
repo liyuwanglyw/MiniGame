@@ -232,11 +232,8 @@ public class MapControl : MonoBehaviour
         while (!isGameOver)
         {
             isGameOver = true;
-            Debug.Log(signal_rev.Count);
             for (int i = 0; i < signal_rev.Count; i++)
             {
-                signal_rev[i].rev_color.print();
-                signal_rev[i].out_state.print();
                 if (signal_rev[i].rev_color != signal_rev[i].out_state)
                 {
                     signal_rev[i].CloseLock();
@@ -407,7 +404,7 @@ public class MapControl : MonoBehaviour
     {
         if(Input.GetKeyDown(KeyCode.Alpha1))
         {
-            Debug.Log(1);
+            game_over?.Invoke(3);
             //MapControl map=MapControl.getInstance();
             //map.HideGame();
         }

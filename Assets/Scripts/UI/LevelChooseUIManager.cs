@@ -5,10 +5,9 @@ using UnityEngine.UI;
 
 public class LevelChooseUIManager : MonoBehaviour
 {
-    private const int LevelNumber = 8;
-    [SerializeField]
-    private Button[] buttonList=new Button[LevelNumber + 1];
-    private int[] scoreList = new int[LevelNumber + 1];
+    private const int LevelNumber = 19;
+    private Button[] buttonList=new Button[LevelNumber];
+    private int[] scoreList = new int[LevelNumber];
 
     //初次生成界面时，注册所有按钮的点击事件
     private void Start()
@@ -31,13 +30,16 @@ public class LevelChooseUIManager : MonoBehaviour
     //按钮点击事件的回调函数，应调用关卡管理器根据关卡编号生成对应关卡（最好使用字符串生成，这样每次加入新关卡只要关卡命名正确即可运行）
     private void CallGenerateLevel(int levelIndex)
     {
-
+        Debug.Log(levelIndex);
+        GameManager.instance.LoadLevel(levelIndex);
+        MainUIManager.instance.ShowPage(MainUIManager.PageType.GamePage);
     }
     //在Start时注册各个按钮的点击事件
     private void RegisterButtonsClickEvent()
     {
-        for(int i=1;i<LevelNumber+1;i++)
+        for(int i=0;i<LevelNumber;i++)
         {
+            buttonList[i] = transform.GetChild(i).GetComponent<Button>();
             buttonList[i].onClick.AddListener(delegate { CallGenerateLevel(i); });
         }
     }
@@ -48,7 +50,7 @@ public class LevelChooseUIManager : MonoBehaviour
         GetAllLevelScore();
 
         //根据每关的星数将星星显示出来
-        for (int i=1;i<LevelNumber+1;i++)
+        for (int i=0;i<LevelNumber;i++)
         {
             switch(scoreList[i])
             {
@@ -75,7 +77,7 @@ public class LevelChooseUIManager : MonoBehaviour
     //隐藏所有星星的函数
     private void HideAllStars()
     {
-        for(int i=1;i<LevelNumber+1;i++)
+        for(int i=0;i<LevelNumber;i++)
         {
             for (int j = 0; j < 3; j++)
             {
@@ -86,14 +88,11 @@ public class LevelChooseUIManager : MonoBehaviour
     //从存档文件中一次读取所有关卡的星数，并存入scoreList
     public void GetAllLevelScore()
     {
-        scoreList[1] = 3;
-        scoreList[2] = 2;
-        scoreList[3] = 1;
-        scoreList[4] = 0;
-        scoreList[5] = 0;
-        scoreList[6] = 3;
-        scoreList[7] = 2;
-        scoreList[8] = 3;
+        int min = LevelNumber > GameState.instance.level_count ? GameState.instance.level_count : LevelNumber;
+        for(int i=0;i<min;i++)
+        {
+            scoreList[i] = GameState.instance.level_stars[i];
+        }
     }
 
 }
