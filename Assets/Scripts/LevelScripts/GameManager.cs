@@ -23,7 +23,6 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        Debug.Log("StartGame");
         LoadLevel(GameState.instance.currrent_level);
     }
 
@@ -55,8 +54,7 @@ public class GameManager : MonoBehaviour
         else
         {
             string level_name = string.Format("level{0}", level_index + 1);
-
-            Debug.Log(level_name);     
+              
             bool isLoadLevel = false;
             isLoadLevel = MapControl.instance.StartLevel(level_name);
             return isLoadLevel;

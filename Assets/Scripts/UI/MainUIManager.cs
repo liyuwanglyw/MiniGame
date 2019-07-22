@@ -8,26 +8,46 @@ public class MainUIManager : MonoBehaviour
     public GameObject mainUI;
     public GameObject selectLevelMenu;
     public GameObject timeLimitedMenu;
+    public GameObject pauseMenu;
+    public GameObject endMenu;
+    public GameObject gamePage;
 
-    enum PageType
+    public enum PageType
     {
         PrePage,
-        MainUI
+        MainUI,
+        SelectLevelMenu,
+        TimeLimitedMenu,
+        PauseMenu,
+        EndMenu,
+        GamePage
     }
     private PageType current_page;
+    Dictionary<PageType,GameObject> page_dict;
 
     public static MainUIManager instance;
 
     private void Awake()
     {
         instance = this;
+        
     }
 
     // Start is called before the first frame update
     void Start()
     {
         DontDestroyOnLoad(this);
-        ShowPrePage();
+
+        page_dict = new Dictionary<PageType, GameObject>();
+        page_dict.Add(PageType.PrePage, prePage);
+        page_dict.Add(PageType.MainUI, mainUI);
+        page_dict.Add(PageType.SelectLevelMenu, selectLevelMenu);
+        page_dict.Add(PageType.TimeLimitedMenu, timeLimitedMenu);
+        page_dict.Add(PageType.PauseMenu, pauseMenu);
+        page_dict.Add(PageType.EndMenu, endMenu);
+        page_dict.Add(PageType.GamePage, gamePage);
+
+        ShowPage(PageType.PrePage);
     }
 
     // Update is called once per frame
@@ -39,7 +59,7 @@ public class MainUIManager : MonoBehaviour
                 {
                     if (Input.anyKey)
                     {
-                        ShowMainUI();
+                        ShowPage(PageType.MainUI);
                     }
                     break;
                 }
@@ -52,54 +72,58 @@ public class MainUIManager : MonoBehaviour
         }
     }
 
+    public void ShowPage(PageType pageType)
+    {
+        foreach(var entry in page_dict)
+        {
+            if (entry.Value != null)
+            {
+                entry.Value.SetActive(entry.Key == pageType);
+            }
+        }
+        current_page = pageType;
+    }
+
+    public void HideAllPages()
+    {
+        foreach (var entry in page_dict)
+        {
+            if (entry.Value != null)
+            {
+                entry.Value.SetActive(false);
+            }
+        }
+    }
+
     public void ShowMainUI()
     {
-        if (prePage != null)
-        {
-            prePage.SetActive(false);
-        }
-        if (mainUI != null)
-        {
-            current_page = PageType.MainUI;
-            mainUI.SetActive(true);
-        }
+        ShowPage(PageType.MainUI);
     }
 
     public void HideMainUI()
     {
-        if (mainUI != null)
+        if (page_dict[PageType.MainUI] != null)
         {
-            mainUI.SetActive(false);
+            page_dict[PageType.MainUI].SetActive(false);
         }
     }
 
-    public void ShowPrePage()
-    {
-        if (mainUI != null)
-        {
-            mainUI.SetActive(false);
-        }
-        if (prePage != null)
-        {
-            current_page = PageType.PrePage;
-            prePage.SetActive(true);
-        }
-    }
 
     public void OnStartGameBtnClick()
     {
-        HideMainUI();
+        ShowPage(PageType.GamePage);
         GameManager.instance.StartGame();
     }
 
     public void OnSelectLevelBtnClick()
     {
-        HideMainUI();
+        ShowPage(PageType.SelectLevelMenu);
     }
 
     public void OnLimitedTimeModeBtnClick()
     {
-        HideMainUI();
+        ShowPage(PageType.TimeLimitedMenu);
+        
     }
 
     public void OnQuitGameBtnClick()

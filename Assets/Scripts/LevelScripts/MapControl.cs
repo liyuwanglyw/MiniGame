@@ -54,7 +54,7 @@ public class MapControl : MonoBehaviour
     }
 
     public int init_gold;   //初始化金币
-    public delegate void GameOverCallBack();
+    public delegate void GameOverCallBack(int star);
     private GameOverCallBack game_over;//游戏结束的回调函数
 
     public int gold
@@ -111,7 +111,7 @@ public class MapControl : MonoBehaviour
         SetGameOverCallBack(Over);
     }
 
-    public void Over()
+    public void Over(int star)
     {
         Debug.Log("over");
     }
@@ -183,7 +183,7 @@ public class MapControl : MonoBehaviour
     {
         StartCoroutine(CheckGameStart());
     }
-
+    
     //在模块都初始化完毕后才开始游戏
     private IEnumerator CheckGameStart()
     {
@@ -232,8 +232,11 @@ public class MapControl : MonoBehaviour
         while (!isGameOver)
         {
             isGameOver = true;
+            Debug.Log(signal_rev.Count);
             for (int i = 0; i < signal_rev.Count; i++)
             {
+                signal_rev[i].rev_color.print();
+                signal_rev[i].out_state.print();
                 if (signal_rev[i].rev_color != signal_rev[i].out_state)
                 {
                     signal_rev[i].CloseLock();
@@ -246,7 +249,33 @@ public class MapControl : MonoBehaviour
             }
             yield return new WaitForSeconds(0.5f);
         }
-        game_over();
+        game_over?.Invoke(GetStar());
+    }
+
+    //获得星数
+    public int GetStar()
+    {
+        goldsave goldSave = GetComponent<goldsave>();
+        if(goldSave==null)
+        {
+            return 1;
+        }
+        if(gold>=goldSave.star3)
+        {
+            return 3;
+        }
+        else if(gold>=goldSave.star2)
+        {
+            return 2;
+        }
+        else if(gold>=goldSave.star1)
+        {
+            return 1;
+        }
+        else
+        {
+            return 1;
+        }   
     }
     
     //添加游戏结束相应函数

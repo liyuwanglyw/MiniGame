@@ -66,7 +66,7 @@ public class CharacterControl : MonoBehaviour
 ;
     }
 
-    public void Over()
+    public void Over(int star)
     {
         GameObject.Find("关卡完成音效 ").GetComponent<AudioSource>().Play();
         GameObject.Find("关卡完成音效2_门打开").GetComponent<AudioSource>().Play();

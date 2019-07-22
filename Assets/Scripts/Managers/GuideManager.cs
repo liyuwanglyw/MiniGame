@@ -22,13 +22,13 @@ public class GuideManager : MonoBehaviour
     public void PointerDown()
     {
         Texts[pointer].SetActive(false);
-        HighLight[pointer].SetActive(false);
+        //HighLight[pointer].SetActive(false);
         pointer++;
 
         if (pointer != Texts.Length)
         {
             Texts[pointer].SetActive(true);
-            HighLight[pointer].SetActive(true);
+            //HighLight[pointer].SetActive(true);
         }
         else
             Destroy(gameObject);

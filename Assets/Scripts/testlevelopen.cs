@@ -20,7 +20,7 @@ public class testlevelopen : MonoBehaviour
     {
         MapControl.getInstance().StartLevel("level1", testcallback);
     }
-    public void testcallback()
+    public void testcallback(int star)
     {
         Debug.Log("callbacksuccess");
     }

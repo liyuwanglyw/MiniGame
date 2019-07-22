@@ -14,7 +14,7 @@ public class GameState : MonoBehaviour
     {
         level_count = 19;
         level_stars = new int[level_count];
-        currrent_level = 2;
+        currrent_level = 3;
         LoadGame();
         instance = this;
     }

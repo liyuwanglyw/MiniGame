@@ -30,7 +30,7 @@ public class leveleditorplay : MonoBehaviour
     {
         MapControl.getInstance().editorStartLevel("level2",callback);
     }
-    public void callback()
+    public void callback(int star)
     {
         overpanel.SetActive(true);
     }

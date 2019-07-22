@@ -125,7 +125,6 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         Empty,
         Plat,
         Invalid,
-        Boundary,
         SignalGen,
         SignalRev,
         BridgeIn,
@@ -136,7 +135,8 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         NotGate,
         AndGate,
         OrGate,
-        CleanMachine
+        CleanMachine,
+        Boundary
     }
     public ModuleType init_type;
     private Stack<ModuleType> all_types;
