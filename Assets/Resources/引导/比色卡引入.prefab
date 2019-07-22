@@ -78,7 +78,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\u60F3\u5408\u6210\u57FA\u7840\u7535\u6D41\uFF1F\u8BD5\u8BD5\u770B\u8FD9\u4E2A\u65B0\u7684\u5143\u4EF6\u5427\uFF01\r"
+  m_Text: "\u5662\uFF0C\u770B\u8D77\u6765\u4F60\u6709\u70B9\u88AB\u989C\u8272\u7ED5\u6655\u4E86\u3002\n\u770B\u770B\u6211\u7ED9\u4F60\u51C6\u5907\u4E86\u4EC0\u4E48\uFF1F\u4E00\u5F20\u6BD4\u8272\u5361\u3002"
 --- !u!1 &6439358841445143803
 GameObject:
   m_ObjectHideFlags: 0
@@ -219,6 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Texts:
   - {fileID: 6126298650762955474}
+  - {fileID: 7990081639473605965}
   HighLight:
   - {fileID: 7434829988634210967}
 --- !u!114 &8593629747251148874
