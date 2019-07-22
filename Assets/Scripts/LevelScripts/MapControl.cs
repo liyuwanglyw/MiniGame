@@ -280,7 +280,7 @@ public class MapControl : MonoBehaviour
     {
         string level_path = "Level/" + level_name;
         GameObject level_prefab = Resources.Load<GameObject>(level_path);
-        if (level_prefab != null && callBack != null)
+        if (level_prefab != null)
         {
             SetGameOverCallBack(callBack);
 
