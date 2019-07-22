@@ -125,6 +125,7 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
         Empty,
         Plat,
         Invalid,
+        Boundary,
         SignalGen,
         SignalRev,
         BridgeIn,
@@ -157,8 +158,15 @@ public class BaseModule : MonoBehaviour,IPointerEnterHandler,IPointerClickHandle
     {
         get
         {
-            return ((current_type == ModuleType.Empty || current_type == ModuleType.Plat)&&map.mouse_state!=DragType.Plat)
-                ||(current_type==ModuleType.Invalid&&map.mouse_state==DragType.Plat);
+            if (current_type == ModuleType.Boundary)
+            {
+                return false;
+            }
+            else
+            {
+                return ((current_type == ModuleType.Empty || current_type == ModuleType.Plat) && map.mouse_state != DragType.Plat)
+                    || (current_type == ModuleType.Invalid && map.mouse_state == DragType.Plat);
+            }
         }
     }
     

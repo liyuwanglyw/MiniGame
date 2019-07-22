@@ -6,6 +6,8 @@ public class MainUIManager : MonoBehaviour
 {
     public GameObject prePage;
     public GameObject mainUI;
+    public GameObject selectLevelMenu;
+    public GameObject timeLimitedMenu;
 
     enum PageType
     {
@@ -13,7 +15,14 @@ public class MainUIManager : MonoBehaviour
         MainUI
     }
     private PageType current_page;
-    
+
+    public static MainUIManager instance;
+
+    private void Awake()
+    {
+        instance = this;
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -66,6 +75,10 @@ public class MainUIManager : MonoBehaviour
 
     public void ShowPrePage()
     {
+        if (mainUI != null)
+        {
+            mainUI.SetActive(false);
+        }
         if (prePage != null)
         {
             current_page = PageType.PrePage;
@@ -75,17 +88,18 @@ public class MainUIManager : MonoBehaviour
 
     public void OnStartGameBtnClick()
     {
-
+        HideMainUI();
+        GameManager.instance.StartGame();
     }
 
     public void OnSelectLevelBtnClick()
     {
-
+        HideMainUI();
     }
 
     public void OnLimitedTimeModeBtnClick()
     {
-
+        HideMainUI();
     }
 
     public void OnQuitGameBtnClick()
