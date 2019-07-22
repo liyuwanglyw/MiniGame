@@ -9,6 +9,7 @@ public class Dragmap : MonoBehaviour, IPointerClickHandler
     public leveleditor editor;
     public GameObject item;
     public GameObject panel;
+    public GameObject currentbridgein;
     public int type;
  
     // Start is called before the first frame update
@@ -56,6 +57,23 @@ public class Dragmap : MonoBehaviour, IPointerClickHandler
             citem.transform.parent = panel.transform;
             citem.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
         }
-  
+        if (type == 3)
+        {
+            GameObject citem = Instantiate(item);
+            citem.GetComponent<BaseModule>().direct = editor.direction;
+            citem.GetComponent<RectTransform>().rotation = Quaternion.Euler(0.0f, 0.0f, (editor.direction + 2) * 90f);
+            citem.transform.parent = panel.transform;
+            GameObject.Find("bridgeout").GetComponent<Dragmap>().currentbridgein = citem;
+            citem.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        }
+        if (type == 4)
+        {
+            GameObject citem = Instantiate(item);
+            citem.GetComponent<BaseModule>().direct = editor.direction;
+            citem.GetComponent<RectTransform>().rotation = Quaternion.Euler(0.0f, 0.0f, (editor.direction) * 90f);
+            citem.transform.parent = panel.transform;
+            citem.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+            currentbridgein.GetComponent<BaseModule>().bridge_out = citem.GetComponent<BaseModule>();
+        }
     }
 }
