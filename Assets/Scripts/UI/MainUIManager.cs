@@ -1,6 +1,8 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class MainUIManager : MonoBehaviour
 {
@@ -11,6 +13,8 @@ public class MainUIManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject endMenu;
     public GameObject gamePage;
+    public Button leveleditor;
+    public Button mylevel;
 
     public enum PageType
     {
@@ -46,6 +50,8 @@ public class MainUIManager : MonoBehaviour
         page_dict.Add(PageType.PauseMenu, pauseMenu);
         page_dict.Add(PageType.EndMenu, endMenu);
         page_dict.Add(PageType.GamePage, gamePage);
+        leveleditor.onClick.AddListener(openleveleditor);
+        mylevel.onClick.AddListener(openplayleveleditor);
 
         ShowPage(PageType.MainUI);
         //ShowPage(PageType.EndMenu);
@@ -156,5 +162,14 @@ public class MainUIManager : MonoBehaviour
             Application.Quit();
         #endif
         
+    }
+
+    public void openleveleditor()
+    {
+        SceneManager.LoadScene("Leveleditor");
+    }
+    public void openplayleveleditor()
+    {
+        SceneManager.LoadScene("Leveleditorplay");
     }
 }

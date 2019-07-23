@@ -35028,6 +35028,8 @@ MonoBehaviour:
   pauseMenu: {fileID: 1752628732}
   endMenu: {fileID: 1803511878}
   gamePage: {fileID: 1478177078}
+  leveleditor: {fileID: 415575921}
+  mylevel: {fileID: 2051232784}
 --- !u!1 &1498697672
 GameObject:
   m_ObjectHideFlags: 0
@@ -36070,6 +36072,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1069394132}
     m_Modifications:
+    - target: {fileID: 4580902710976815257, guid: 3b56bdf9e926f664e8bd761d67373f37,
+        type: 3}
+      propertyPath: m_Name
+      value: ChooseButton1
+      objectReference: {fileID: 0}
     - target: {fileID: 4580902710976815256, guid: 3b56bdf9e926f664e8bd761d67373f37,
         type: 3}
       propertyPath: m_AnchorMin.x
@@ -36114,11 +36121,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_RootOrder
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4580902710976815257, guid: 3b56bdf9e926f664e8bd761d67373f37,
-        type: 3}
-      propertyPath: m_Name
-      value: ChooseButton1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3b56bdf9e926f664e8bd761d67373f37, type: 3}
