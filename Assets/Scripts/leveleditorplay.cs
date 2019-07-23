@@ -38,6 +38,7 @@ public class leveleditorplay : MonoBehaviour
     }
     public void backtomain()
     {
+        Destroy(GameObject.Find("editorsaver"));
         SceneManager.LoadScene("MainUI");
     }
 }

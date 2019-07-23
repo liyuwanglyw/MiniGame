@@ -46,6 +46,8 @@ public class leveleditor : MonoBehaviour
         r = true;
         b = true;
         g = true;
+        Destroy(GameObject.Find("editorsaver").GetComponent<saveeditor>().canvas);
+        UnityEngine.Object.DontDestroyOnLoad(GameObject.Find("editorCanvas"));
     }
 
    
@@ -74,9 +76,9 @@ public class leveleditor : MonoBehaviour
     }
     public void savegame()
     {
+       
         Debug.Log("insavelevel");
         level.GetComponent<goldsave>().gold = this.gold;
-        PrefabUtility.SaveAsPrefabAsset(level, "Assets/Resources/playersavelevel/mylevel.prefab");
         Invoke("switchscene", 0.5f);
     }
     public void switchscene()

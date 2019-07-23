@@ -385,12 +385,14 @@ public class MapControl : MonoBehaviour
     public bool editorChangeLevel(string level_name, GameOverCallBack callBack = null)
     {
         string level_path = "playersavelevel/mylevel";
-        GameObject level_prefab = Resources.Load<GameObject>(level_path);
+        GameObject level_prefab = GameObject.Find("editlevel");
+        Destroy(GameObject.Find("editorCanvas"));
+        Debug.Log(level_prefab);
         if (level_prefab != null && callBack != null)
         {
             SetGameOverCallBack(callBack);
 
-            GameObject next_level = Instantiate(level_prefab);
+            GameObject next_level = level_prefab;
             GameObject current_level = level_panel;
             init_gold = level_prefab.GetComponent<goldsave>().gold;
 

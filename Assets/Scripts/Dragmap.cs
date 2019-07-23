@@ -15,7 +15,7 @@ public class Dragmap : MonoBehaviour, IPointerClickHandler
     // Start is called before the first frame update
     void Start()
     {
-        editor = GameObject.Find("Canvas").GetComponent<leveleditor>();
+        editor = GameObject.Find("editorCanvas").GetComponent<leveleditor>();
         Debug.Log(editor.r);
     }
 

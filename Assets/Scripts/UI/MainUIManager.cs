@@ -172,6 +172,7 @@ public class MainUIManager : MonoBehaviour
 
     public void openleveleditor()
     {
+        GameObject.Find("editorsaver").GetComponent<saveeditor>().canvas.SetActive(false);
         SceneManager.LoadScene("Leveleditor");
     }
     public void openplayleveleditor()
