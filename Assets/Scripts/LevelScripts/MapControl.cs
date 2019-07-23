@@ -252,9 +252,11 @@ public class MapControl : MonoBehaviour
     //获得星数
     public int GetStar()
     {
-        goldsave goldSave = GetComponent<goldsave>();
+        goldsave goldSave = transform.GetChild(0).GetComponentInChildren<goldsave>();
+        
         if(goldSave==null)
         {
+            Debug.Log(1);
             return 1;
         }
         if(gold>=goldSave.star3)
