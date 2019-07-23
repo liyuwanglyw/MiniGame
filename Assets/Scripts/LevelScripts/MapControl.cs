@@ -293,6 +293,43 @@ public class MapControl : MonoBehaviour
 
     #region 游戏关卡控制
     //开始关卡
+    public bool StartLevel(GameObject level_prefab, GameOverCallBack callBack = null)
+    {
+        ShowGame();
+        bool succeed = ChangeLevel(level_prefab, callBack);
+        GameStart();
+        return succeed;
+    }
+
+    public bool ChangeLevel(GameObject level_prefab, GameOverCallBack callBack = null)
+    {
+        if (level_prefab != null)
+        {
+            SetGameOverCallBack(callBack);
+
+            GameObject next_level = Instantiate(level_prefab);
+            GameObject current_level = level_panel;
+            init_gold = level_prefab.GetComponent<goldsave>().gold;
+
+            next_level.transform.parent = back_area;
+            next_level.transform.localPosition = current_level.transform.localPosition;
+            next_level.transform.localScale = current_level.transform.localScale;
+            next_level.transform.rotation = current_level.transform.rotation;
+            next_level.transform.SetSiblingIndex(0);
+
+            Destroy(current_level);
+
+            level_panel = next_level;
+            GameInit();
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    //开始关卡
     public bool StartLevel(string level_name,GameOverCallBack callBack = null)
     {
         ShowGame();

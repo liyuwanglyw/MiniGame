@@ -59,7 +59,7 @@ public class GameManager : MonoBehaviour
         
         if(mode==GameMode.TimeLimited)
         {
-
+            TimeLimitMode.instance.NextLevel();
         }
 
         return false;
@@ -67,7 +67,8 @@ public class GameManager : MonoBehaviour
 
     public bool LoadLevel(int level_index)
     {
-        Debug.Log(string.Format("load level{0}", level_index));
+        mode = GameMode.Normal;
+        Debug.Log(string.Format("load level{0}", level_index+1));
         if(level_index>GameState.instance.level_count-1)
         {
             return false;
@@ -85,7 +86,6 @@ public class GameManager : MonoBehaviour
 
     public void PassLevel(int star)
     {
-        Debug.Log(star);
         MainUIManager.instance.ShowPage(MainUIManager.PageType.EndMenu);
         GameState.instance.level_stars[GameState.instance.currrent_level] = star;
         EndPageUI.instance.SetStar(star);

@@ -12,11 +12,22 @@ public class countdown : MonoBehaviour
     public Text CountDown1Text;
     void Start()
     {
+    }
+
+    private void OnEnable()
+    {
+        totalTime1 = 900;
+        intervalTime = 1;
+
         CountDown1Text.text = string.Format("{0:D2}:{1:D2}",
         (int)totalTime1 / 60, (int)totalTime1 % 60);
         StartCoroutine(CountDown1());
     }
 
+    private void OnDisable()
+    {
+        StopAllCoroutines();
+    }
     // Update is called once per frame
     void Update()
     {
@@ -33,7 +44,7 @@ public class countdown : MonoBehaviour
            (int)totalTime1 / 60, (int)totalTime1 % 60);
             if(totalTime1 == 1)
             {
-                Debug.Log("计时结束");
+                TimeLimitMode.instance.EndGame();
             }
         }
     }

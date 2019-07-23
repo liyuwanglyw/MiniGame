@@ -13,6 +13,8 @@ public class MainUIManager : MonoBehaviour
     public GameObject pauseMenu;
     public GameObject endMenu;
     public GameObject gamePage;
+    public GameObject timeLimitedEndPage;
+
     public Button leveleditor;
     public Button mylevel;
 
@@ -24,7 +26,8 @@ public class MainUIManager : MonoBehaviour
         TimeLimitedMenu,
         PauseMenu,
         EndMenu,
-        GamePage
+        GamePage,
+        TimeLimitedEndPage
     }
     private PageType current_page;
     Dictionary<PageType,GameObject> page_dict;
@@ -50,6 +53,8 @@ public class MainUIManager : MonoBehaviour
         page_dict.Add(PageType.PauseMenu, pauseMenu);
         page_dict.Add(PageType.EndMenu, endMenu);
         page_dict.Add(PageType.GamePage, gamePage);
+        page_dict.Add(PageType.TimeLimitedEndPage, timeLimitedEndPage);
+
         leveleditor.onClick.AddListener(openleveleditor);
         mylevel.onClick.AddListener(openplayleveleditor);
 
@@ -120,6 +125,7 @@ public class MainUIManager : MonoBehaviour
 
     public void ShowMainUI()
     {
+        TimeLimitMode.instance.timer.gameObject.SetActive(false);
         ShowPage(PageType.MainUI);
     }
 

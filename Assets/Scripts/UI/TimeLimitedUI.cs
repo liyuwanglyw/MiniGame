@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class TimeLimitedUI : MonoBehaviour
 {
     // Start is called before the first frame update
@@ -16,4 +16,25 @@ public class TimeLimitedUI : MonoBehaviour
         
     }
     
+    public void OnEasyBtnClick()
+    {
+        MainUIManager.instance.ShowPage(MainUIManager.PageType.GamePage);
+        TimeLimitMode.instance.StartGame(TimeLimitMode.Difficulty.Simple);
+    }
+
+    public void OnNormalBtnClick()
+    {
+        MainUIManager.instance.ShowPage(MainUIManager.PageType.GamePage);
+
+        TimeLimitMode.instance.StartGame(TimeLimitMode.Difficulty.Normal);
+
+    }
+
+    public void OnHardBtnClick()
+    {
+        MainUIManager.instance.ShowPage(MainUIManager.PageType.GamePage);
+
+        TimeLimitMode.instance.StartGame(TimeLimitMode.Difficulty.Hard);
+    }
+
 }
