@@ -391,7 +391,7 @@ public class MapControl : MonoBehaviour
             SetGameOverCallBack(callBack);
 
             GameObject next_level = Instantiate(level_prefab);
-            GameObject current_level = GameObject.Find("editorsaver").GetComponent<saveeditorlevel>().playerlevel;
+            GameObject current_level = level_panel;
             init_gold = level_prefab.GetComponent<goldsave>().gold;
 
             next_level.transform.parent = back_area;
