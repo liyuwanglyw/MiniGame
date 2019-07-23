@@ -260,6 +260,7 @@ MonoBehaviour:
   - {fileID: 7416213997521209353}
   HighLight:
   - {fileID: 8008532392955303891}
+  - {fileID: 8008532392955303891}
 --- !u!114 &9172533939525098766
 MonoBehaviour:
   m_ObjectHideFlags: 0

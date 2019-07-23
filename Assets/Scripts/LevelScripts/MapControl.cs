@@ -386,7 +386,7 @@ public class MapControl : MonoBehaviour
     {
         string level_path = "playersavelevel/mylevel";
         GameObject level_prefab = GameObject.Find("editlevel");
-        Destroy(GameObject.Find("editorCanvas"));
+        GameObject.Find("editorCanvas").SetActive(false);
         Debug.Log(level_prefab);
         if (level_prefab != null && callBack != null)
         {
