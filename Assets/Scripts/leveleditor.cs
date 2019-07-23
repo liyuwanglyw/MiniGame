@@ -27,6 +27,7 @@ public class leveleditor : MonoBehaviour
     public InputField star2input;
     public InputField star3input;
     bool isshow = true;
+    public Button mainui;
 
     // Start is called before the first frame update
     void Start()
@@ -41,6 +42,7 @@ public class leveleditor : MonoBehaviour
         star3input.onValueChange.AddListener(changestar3);
         save.onClick.AddListener(savegame);
         hide.onClick.AddListener(hidepanel);
+        mainui.onClick.AddListener(backtomain);
         r = true;
         b = true;
         g = true;
@@ -105,5 +107,9 @@ public class leveleditor : MonoBehaviour
             editorpanel.SetActive(true);
             isshow = true;
         }
+    }
+    public void backtomain()
+    {
+        SceneManager.LoadScene("MainUI");
     }
 }
