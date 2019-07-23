@@ -11,12 +11,14 @@ public class leveleditorplay : MonoBehaviour
     public GameObject overpanel;
     public  Button upload;
     public Button back;
+    public Button ingameback;
 
     void Start()
     {
         overpanel = GameObject.Find("overpanel");
         overpanel.SetActive(false);
         back.onClick.AddListener(backtomain);
+        ingameback.onClick.AddListener(backtomain);
         Invoke("startlevel",0.1f);
     }
 

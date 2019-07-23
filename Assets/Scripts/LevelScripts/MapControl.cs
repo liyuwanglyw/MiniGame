@@ -252,8 +252,10 @@ public class MapControl : MonoBehaviour
     //获得星数
     public int GetStar()
     {
+<<<<<<< HEAD
         goldsave goldSave = transform.GetChild(0).GetComponentInChildren<goldsave>();
         
+=======
         if(goldSave==null)
         {
             Debug.Log(1);
