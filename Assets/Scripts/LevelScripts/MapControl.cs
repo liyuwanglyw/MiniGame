@@ -142,13 +142,13 @@ public class MapControl : MonoBehaviour
         pool = GameObject.Find("Managers").GetComponent<SpawnPool>();
 
         //初始化拖拽时候图片的大小
-        Debug.Log(m + ","+n);
+        //Debug.Log(m + ","+n);
         drag_item.GetComponent<RectTransform>().sizeDelta = cell_size;
 
         //初始化Module数组
         modules = new BaseModule[m, n];
         BaseModule[] mod = map_panel.GetComponentsInChildren<BaseModule>();
-        Debug.Log(mod.Length);
+        //Debug.Log(mod.Length);
         module_count = mod.Length;
         for (int i = 0; i < m; i++)
         {
@@ -443,12 +443,12 @@ public class MapControl : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            game_over?.Invoke(3);
-            //MapControl map=MapControl.getInstance();
-            //map.HideGame();
-        }
+        //if(Input.GetKeyDown(KeyCode.Alpha1))
+        //{
+        //    game_over?.Invoke(3);
+        //    //MapControl map=MapControl.getInstance();
+        //    //map.HideGame();
+        //}
         if (Input.GetKeyDown(KeyCode.Space))
         {
             Debug.Log(mouse_state);

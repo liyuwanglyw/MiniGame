@@ -39,16 +39,13 @@ public class GameManager : MonoBehaviour
 
     public bool NextLevel()
     {
+        Debug.Log(GameState.instance.currrent_level);
         if (mode == GameMode.Normal)
         {
             int next_level_index = GameState.instance.GetNextLevelIndex();
             if (next_level_index != -1)
             {
                 bool isLoaded = LoadLevel(next_level_index);
-                if (isLoaded)
-                {
-                    GameState.instance.currrent_level++;
-                }
                 return isLoaded;
             }
             else
