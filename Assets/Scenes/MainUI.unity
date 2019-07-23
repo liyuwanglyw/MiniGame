@@ -32141,6 +32141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e8a71c2d43a4c48a28dd6105811743, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mode: 0
 --- !u!114 &1384800532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -32156,6 +32157,7 @@ MonoBehaviour:
   level_stars: 
   currrent_level: 2
   level_count: 0
+  unpass_level: 0
 --- !u!1 &1386762216
 GameObject:
   m_ObjectHideFlags: 0
@@ -38196,8 +38198,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1384800526}
-        m_MethodName: HideGame
+      - m_Target: {fileID: 1495818534}
+        m_MethodName: ShowPausePage
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

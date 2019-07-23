@@ -125,6 +125,11 @@ public class MainUIManager : MonoBehaviour
         }
     }
 
+    public void ShowPausePage()
+    {
+        ShowPage(PageType.PauseMenu);
+    }
+
 
     public void OnStartGameBtnClick()
     {

@@ -2,11 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum GameMode
+{
+    Normal,
+    TimeLimited
+}
+
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
+
+    public GameMode mode;
+
     private void Awake()
     {
+        mode = GameMode.Normal;
         instance = this;
     }
 
@@ -23,25 +33,36 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
+        mode = GameMode.Normal;
         LoadLevel(GameState.instance.unpass_level);
     }
 
     public bool NextLevel()
     {
-        int next_level_index = GameState.instance.GetNextLevelIndex();
-        if (next_level_index!=-1)
+        if (mode == GameMode.Normal)
         {
-            bool isLoaded= LoadLevel(next_level_index);
-            if(isLoaded)
+            int next_level_index = GameState.instance.GetNextLevelIndex();
+            if (next_level_index != -1)
             {
-                GameState.instance.currrent_level++;
+                bool isLoaded = LoadLevel(next_level_index);
+                if (isLoaded)
+                {
+                    GameState.instance.currrent_level++;
+                }
+                return isLoaded;
             }
-            return isLoaded;
+            else
+            {
+                return false;
+            }
         }
-        else
+        
+        if(mode==GameMode.TimeLimited)
         {
-            return false;
+
         }
+
+        return false;
     }
 
     public bool LoadLevel(int level_index)
