@@ -56,7 +56,6 @@ public class MainUIManager : MonoBehaviour
         page_dict.Add(PageType.TimeLimitedEndPage, timeLimitedEndPage);
 
         leveleditor.onClick.AddListener(openleveleditor);
-        mylevel.onClick.AddListener(openplayleveleditor);
 
         ShowPage(PageType.MainUI);
         //ShowPage(PageType.EndMenu);

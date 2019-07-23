@@ -22,17 +22,17 @@ public class GameState : MonoBehaviour
 
     private void Awake()
     {
+     
+    }
+    // Start is called before the first frame update
+    void Start()
+    {
         save_path = Application.dataPath + "/data.save";
         level_count = 19;
         level_stars = new int[level_count];
         currrent_level = 0;
         LoadGame();
         instance = this;
-    }
-    // Start is called before the first frame update
-    void Start()
-    {
-        
     }
 
     // Update is called once per frame
