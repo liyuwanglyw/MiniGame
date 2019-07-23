@@ -23,7 +23,7 @@ public class GameManager : MonoBehaviour
 
     public void StartGame()
     {
-        LoadLevel(GameState.instance.currrent_level);
+        LoadLevel(GameState.instance.unpass_level);
     }
 
     public bool NextLevel()
@@ -46,12 +46,14 @@ public class GameManager : MonoBehaviour
 
     public bool LoadLevel(int level_index)
     {
+        Debug.Log(string.Format("load level{0}", level_index));
         if(level_index>GameState.instance.level_count-1)
         {
             return false;
         }
         else
         {
+            GameState.instance.currrent_level = level_index;
             string level_name = string.Format("level{0}", level_index + 1);
               
             bool isLoadLevel = false;
@@ -62,9 +64,11 @@ public class GameManager : MonoBehaviour
 
     public void PassLevel(int star)
     {
+        Debug.Log(star);
+        MainUIManager.instance.ShowPage(MainUIManager.PageType.EndMenu);
         GameState.instance.level_stars[GameState.instance.currrent_level] = star;
         EndPageUI.instance.SetStar(star);
-        MainUIManager.instance.ShowPage(MainUIManager.PageType.EndMenu);
+        GameState.instance.SaveGame();
     }
 
     public void QuitGame()

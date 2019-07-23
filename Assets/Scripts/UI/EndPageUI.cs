@@ -10,11 +10,10 @@ public class EndPageUI : MonoBehaviour
     private void Awake()
     {
         instance = this;
+        stars = GetComponentsInChildren<StarControl>();
     }
     void Start()
     {
-        stars = GetComponentsInChildren<StarControl>();
-        SetStar(1);
     }
 
     // Update is called once per frame

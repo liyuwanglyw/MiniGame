@@ -47,7 +47,7 @@ public class MainUIManager : MonoBehaviour
         page_dict.Add(PageType.EndMenu, endMenu);
         page_dict.Add(PageType.GamePage, gamePage);
 
-        ShowPage(PageType.PrePage);
+        ShowPage(PageType.MainUI);
         //ShowPage(PageType.EndMenu);
     }
 
@@ -66,6 +66,22 @@ public class MainUIManager : MonoBehaviour
                 }
             case PageType.MainUI:
                 {
+                    break;
+                }
+            case PageType.GamePage:
+                {
+                    if(Input.GetKeyDown(KeyCode.Escape)&&MapControl.instance.mouse_state==DragType.Empty)
+                    {
+                        MainUIManager.instance.ShowPage(PageType.PauseMenu);
+                    }
+                    break;
+                }
+            case PageType.PauseMenu:
+                {
+                    if (Input.GetKeyDown(KeyCode.Escape) && MapControl.instance.mouse_state == DragType.Empty)
+                    {
+                        MainUIManager.instance.ShowPage(PageType.GamePage);
+                    }
                     break;
                 }
             default:

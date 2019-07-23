@@ -18,6 +18,10 @@ public class LevelChooseUIManager : MonoBehaviour
     //当界面被显示时，显示所有星星
     private void OnEnable()
     {
+        for(int i=0;i<LevelNumber;i++)
+        {
+            buttonList[i] = transform.GetChild(i).GetComponent<Button>();
+        }
         DisplayLevelScore();
     }
 
@@ -39,8 +43,8 @@ public class LevelChooseUIManager : MonoBehaviour
     {
         for(int i=0;i<LevelNumber;i++)
         {
-            buttonList[i] = transform.GetChild(i).GetComponent<Button>();
-            buttonList[i].onClick.AddListener(delegate { CallGenerateLevel(i); });
+            Button button = buttonList[i];
+            button.onClick.AddListener(delegate() { CallGenerateLevel(button.transform.GetSiblingIndex()); });
         }
     }
     //每次Enable时，显示所有关卡的积分情况的函数（星星）
