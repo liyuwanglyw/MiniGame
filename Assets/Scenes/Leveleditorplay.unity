@@ -2830,6 +2830,36 @@ PrefabInstance:
       propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2675163869369602275, guid: a5fcbb59295b5144d8968ba2fc912808,
+        type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675163869369602275, guid: a5fcbb59295b5144d8968ba2fc912808,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675163869369602275, guid: a5fcbb59295b5144d8968ba2fc912808,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675163869369602275, guid: a5fcbb59295b5144d8968ba2fc912808,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675163869369602275, guid: a5fcbb59295b5144d8968ba2fc912808,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2675163869369602275, guid: a5fcbb59295b5144d8968ba2fc912808,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a5fcbb59295b5144d8968ba2fc912808, type: 3}
 --- !u!1 &168793835
@@ -3976,6 +4006,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 880320311}
   m_CullTransparentMesh: 0
+--- !u!1 &1013184203 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 9140805264666216452, guid: a5fcbb59295b5144d8968ba2fc912808,
+    type: 3}
+  m_PrefabInstance: {fileID: 167734502}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1035785835
 GameObject:
   m_ObjectHideFlags: 0
@@ -4747,6 +4783,7 @@ MonoBehaviour:
   overpanel: {fileID: 0}
   upload: {fileID: 0}
   back: {fileID: 289868417}
+  ingameback: {fileID: 1737335679}
 --- !u!1 &1610702521
 GameObject:
   m_ObjectHideFlags: 0
@@ -4978,8 +5015,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2035485588}
-        m_MethodName: HideGame
+      - m_Target: {fileID: 1013184203}
+        m_MethodName: 
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
