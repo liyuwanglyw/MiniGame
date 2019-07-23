@@ -76,7 +76,7 @@ public class leveleditor : MonoBehaviour
     {
         Debug.Log("insavelevel");
         level.GetComponent<goldsave>().gold = this.gold;
-        PrefabUtility.SaveAsPrefabAsset(level, "Assets/Resources/playersavelevel/mylevel.prefab");
+        GameObject.Find("editorsaver").GetComponent<saveeditorlevel>().playerlevel = level ;
         Invoke("switchscene", 0.5f);
     }
     public void switchscene()
